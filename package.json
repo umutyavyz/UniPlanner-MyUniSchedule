@@ -2,6 +2,7 @@
   "name": "uniplanner-pro",
   "version": "1.0.0",
   "description": "University semester planner application",
+  "main": "app.js",
   "author": "Umut Yavuz",
   "private": true,
   "scripts": {
