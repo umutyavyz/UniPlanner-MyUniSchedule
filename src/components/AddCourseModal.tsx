@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Plus, Trash2 } from 'lucide-react';
 import { Course, CourseType } from '@/types';
 import { Settings } from '@/types/settings';
@@ -24,6 +25,7 @@ interface AddCourseModalProps {
 
 
 export default function AddCourseModal({ isOpen, onClose, onSave, initialData, settings, defaultColor }: AddCourseModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [instructor, setInstructor] = useState('');
@@ -38,6 +40,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
   const t = translations[settings.language];
 
   useEffect(() => {
+    setMounted(true);
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
@@ -121,7 +124,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
     return t.days[key as keyof typeof t.days];
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const addSchedule = () => {
     setSchedules([...schedules, { day: 'Pazartesi', startTime: '09:00', endTime: '10:00' }]);
@@ -141,7 +144,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
     setSchedules(newSchedules);
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
       <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-fade-in mx-2 sm:mx-0">
         <div className="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-900 z-10">
@@ -309,6 +312,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
