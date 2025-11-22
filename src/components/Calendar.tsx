@@ -153,19 +153,19 @@ export default function Calendar({ courses, settings }: CalendarProps) {
                   return (
                     <div
                       key={`${course.id}-${i}`}
-                      className="absolute left-1 right-1 rounded-lg p-2 text-xs overflow-hidden shadow-sm border hover:brightness-95 transition-all cursor-pointer z-10 animate-fade-in"
+                      className="absolute left-1 right-1 rounded-lg p-2 text-sm overflow-hidden shadow-sm border hover:brightness-95 transition-all cursor-pointer z-10 animate-fade-in"
                       style={{ 
                         top: style.top, 
                         height: style.height,
-                        backgroundColor: `${color}20`,
+                        backgroundColor: `${color}15`,
                         borderColor: color,
                         color: color
                       }}
                     >
-                      <div className="font-bold">{course.code}</div>
+                      <div className="font-bold text-base">{course.code}</div>
                       <div className="truncate font-medium text-gray-900 dark:text-gray-100">{course.name}</div>
                       {course.classroom && <div className="truncate opacity-90 font-medium">{course.classroom}</div>}
-                      <div className="mt-1 opacity-80">{s.startTime} - {s.endTime}</div>
+                      <div className="mt-1 opacity-80 text-xs">{s.startTime} - {s.endTime}</div>
                     </div>
                   );
                 });

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Course, ScheduledCourse } from '@/types';
 import { Settings, defaultSettings } from '@/types/settings';
 import { translations } from '@/lib/i18n';
@@ -10,6 +10,7 @@ import SettingsModal from '@/components/SettingsModal';
 import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import AdPlaceholder from '@/components/AdPlaceholder';
+import LandingPage from '@/components/LandingPage';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
@@ -24,6 +25,12 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const appRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollToApp = () => {
+    appRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const savedAllCourses = localStorage.getItem('allCourses');
@@ -244,9 +251,9 @@ export default function Home() {
   }
 
   return (
-    <main className="flex h-screen flex-col bg-white dark:bg-gray-950 overflow-hidden font-sans text-gray-900 dark:text-gray-100 transition-colors">
+    <main className="flex min-h-screen flex-col bg-white dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 transition-colors">
       {/* Top Navigation Bar */}
-      <header className="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 lg:px-6 bg-white dark:bg-gray-900 shrink-0 z-50 relative transition-colors">
+      <header className="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 lg:px-6 bg-white dark:bg-gray-900 shrink-0 z-50 sticky top-0 transition-colors">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setIsSidebarOpen(true)}
@@ -391,8 +398,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden relative">
+      {/* Main App Content */}
+      <div ref={appRef} className="flex flex-col lg:flex-row h-[calc(100vh-64px)] relative overflow-hidden">
         <Sidebar 
           courses={allCourses}
           onAddCourse={handleAddCourse} 
@@ -407,12 +414,16 @@ export default function Home() {
         />
         <div id="calendar-container" className="flex-1 h-full overflow-auto flex flex-col bg-white dark:bg-gray-950">
           {/* Ad Space - Top of Calendar (Leaderboard) */}
-          {/* <div className="w-full flex justify-center py-2 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0 print:hidden">
-            <AdPlaceholder width="728px" height="90px" text="Sponsorlu Alan (Leaderboard)" />
-          </div> */}
+          <div className="w-full flex justify-center py-2 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0 print:hidden">
+            <AdPlaceholder width="728px" height="90px" className="hidden md:flex" text="Sponsorlu Alan (Leaderboard)" />
+            <AdPlaceholder width="320px" height="50px" className="md:hidden" text="Sponsorlu Alan" />
+          </div>
           <Calendar courses={selectedCourses} settings={settings} />
         </div>
       </div>
+
+      {/* Landing Page Content */}
+      <LandingPage settings={settings} onStart={scrollToApp} />
 
       <SettingsModal 
         isOpen={isSettingsOpen} 

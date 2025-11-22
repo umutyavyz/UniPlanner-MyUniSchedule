@@ -65,6 +65,76 @@ export const translations = {
       friday: 'Cuma',
       saturday: 'Cumartesi',
       sunday: 'Pazar'
+    },
+    landing: {
+      features: {
+        learning: {
+          title: 'Akademik Başarıyı Artırın',
+          desc: 'Derslerinizi ve ödevlerinizi kaçırmayın, mükemmel çalışma düzenini kurun.'
+        },
+        workLife: {
+          title: 'Hayatınızı Düzenleyin',
+          desc: 'İş, hobi ve dinlenme zamanlarınızı etkili bir şekilde dengeleyin.'
+        },
+        family: {
+          title: 'Ev Yönetimi',
+          desc: 'Ev işlerini, yemekleri ve aile etkinliklerini tek bir yerden takip edin.'
+        }
+      },
+      breeze: {
+        title: 'Haftanızı Mükemmel Tasarlayın',
+        desc: 'Takvim görünümünü özelleştirin, hafta sonlarını açıp kapatın ve zaman dilimlerini yaşam tarzınıza göre ayarlayın.'
+      },
+      share: {
+        title: 'Kolay Paylaşım Seçenekleri',
+        desc: 'PDF olarak indirin, resim olarak kaydedin veya tarayıcınızda saklayın. Programınız her an yanınızda.'
+      },
+      privacy: {
+        title: 'Önce Gizlilik',
+        desc: 'Gizli takip yok. Program verileriniz sunucularımızda değil, kendi cihazınızda saklanır.'
+      },
+      impact: {
+        text: 'Bugün planlamaya ayıracağınız birkaç dakika, yarın saatlerce kafa karışıklığını önler.',
+        source: 'Zaman Yönetimi Uzmanları'
+      },
+      howto: {
+        title: 'Ders Programı Nasıl Hazırlanır?',
+        step1: {
+          title: 'Başlangıç',
+          desc: 'Uygulamayı açın ve tablo ayarlarınızı yapın.'
+        },
+        step2: {
+          title: 'Ekleme',
+          desc: 'Derslerinizi ve görevlerinizi menüden veya takvimden ekleyin.'
+        },
+        step3: {
+          title: 'Güvence',
+          desc: 'Planınızı kaybetmemek için dışa aktarma seçeneklerini kullanın.'
+        }
+      },
+      faq: {
+        title: 'Sıkça Sorulan Sorular',
+        q1: {
+          q: 'Bu uygulama ücretsiz mi?',
+          a: 'Evet, tüm öğrenciler ve kullanıcılar için tamamen ücretsizdir.'
+        },
+        q2: {
+          q: 'Hangi planlama türleri var?',
+          a: 'Haftalık ve günlük planlama formatları desteklenmektedir.'
+        },
+        q3: {
+          q: 'Verilerim güvende mi?',
+          a: 'Yerel depolamaya öncelik veriyoruz. Kişisel veri toplanmaz.'
+        },
+        q4: {
+          q: 'Programımı nasıl kaydederim?',
+          a: 'Resim veya PDF olarak indirmek için dışa aktar butonunu kullanın.'
+        }
+      },
+      cta: {
+        title: 'Haftalık planlamanızı bir üst seviyeye taşıyın',
+        button: 'PROGRAMINI OLUŞTUR'
+      }
     }
   },
   en: {
@@ -133,6 +203,76 @@ export const translations = {
       friday: 'Friday',
       saturday: 'Saturday',
       sunday: 'Sunday'
+    },
+    landing: {
+      features: {
+        learning: {
+          title: 'Boost Your GPA',
+          desc: 'Create the perfect study routine and never miss a class or assignment.'
+        },
+        workLife: {
+          title: 'Stay Organized',
+          desc: 'Balance your job, hobbies, and downtime effectively.'
+        },
+        family: {
+          title: 'Home Management',
+          desc: 'Coordinate chores, meals, and family events in one place.'
+        },
+      },
+      breeze: {
+        title: 'Design Your Perfect Week',
+        desc: 'Customize your calendar view, toggle weekends, and adjust time slots to match your lifestyle.'
+      },
+      share: {
+        title: 'Seamless Export Options',
+        desc: 'Download as PDF, save as an image, or keep it in your browser. Your schedule goes where you go.'
+      },
+      privacy: {
+        title: 'Privacy First Approach',
+        desc: 'No hidden tracking. Your schedule data lives on your device, not on our servers.'
+      },
+      impact: {
+        text: 'A few minutes of planning today saves hours of confusion tomorrow.',
+        source: 'Productivity Experts'
+      },
+      howto: {
+        title: 'How to make a schedule',
+        step1: {
+          title: 'Initialize',
+          desc: 'Launch the app and adjust your grid settings.'
+        },
+        step2: {
+          title: 'Add Items',
+          desc: 'Input your classes and tasks using the sidebar or direct click.'
+        },
+        step3: {
+          title: 'Keep it Safe',
+          desc: 'Export your schedule to ensure you never lose your plan.'
+        }
+      },
+      faq: {
+        title: 'FAQ',
+        q1: {
+          q: 'Is this app free?',
+          a: 'Yes, completely free for all students and users.'
+        },
+        q2: {
+          q: 'What planning types are supported?',
+          a: 'Weekly and daily planning formats are supported.'
+        },
+        q3: {
+          q: 'Is my data safe?',
+          a: 'We prioritize local storage. No personal data collection.'
+        },
+        q4: {
+          q: 'How do I save?',
+          a: 'Use the export button to save as image or PDF.'
+        }
+      },
+      cta: {
+        title: 'Ready to master your weekly planning?',
+        button: 'BUILD YOUR SCHEDULE'
+      }
     }
   }
 };
