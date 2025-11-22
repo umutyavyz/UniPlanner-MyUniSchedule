@@ -31,7 +31,7 @@ export default function CourseCard({ course, onAdd, onRemove, onEdit, onDelete, 
   
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all mb-3 animate-fade-in group relative">
-      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute top-2 right-2 flex gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
         <button
           onClick={(e) => { e.stopPropagation(); onEdit(course); }}
           className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
@@ -96,8 +96,8 @@ export default function CourseCard({ course, onAdd, onRemove, onEdit, onDelete, 
           >
             {isAdded ? (
               <>
-                <Check size={20} className="block group-hover/btn:hidden" />
-                <Trash2 size={20} className="hidden group-hover/btn:block" />
+                <Check size={20} className="hidden lg:block lg:group-hover/btn:hidden" />
+                <Trash2 size={20} className="block lg:hidden lg:group-hover/btn:block" />
               </>
             ) : (
               <Plus size={20} />

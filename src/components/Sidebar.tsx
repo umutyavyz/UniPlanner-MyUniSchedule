@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, PlusCircle } from 'lucide-react';
+import { Search, PlusCircle, X } from 'lucide-react';
 import { Course } from '@/types';
 import { Settings } from '@/types/settings';
 import { translations } from '@/lib/i18n';
@@ -16,9 +16,11 @@ interface SidebarProps {
   onDeleteCourse: (courseId: string) => void;
   addedCourseIds: string[];
   settings: Settings;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function Sidebar({ courses, onAddCourse, onRemoveFromSchedule, onCreateCourse, onEditCourse, onDeleteCourse, addedCourseIds, settings }: SidebarProps) {
+export default function Sidebar({ courses, onAddCourse, onRemoveFromSchedule, onCreateCourse, onEditCourse, onDeleteCourse, addedCourseIds, settings, isOpen, onClose }: SidebarProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'Tümü' | 'Zorunlu' | 'Seçmeli'>('Tümü');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,9 +55,36 @@ export default function Sidebar({ courses, onAddCourse, onRemoveFromSchedule, on
   });
 
   return (
-    <div className="w-full lg:w-[400px] flex flex-col h-full bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 p-4 overflow-hidden transition-colors">
-      {/* Search */}
-      <div className="relative mb-4">
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
+          onClick={onClose}
+        />
+      )}
+
+      <div className={`
+        fixed inset-y-0 left-0 z-50 w-[85vw] sm:w-[400px] flex flex-col h-full 
+        bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 
+        p-4 overflow-hidden transition-all duration-300 ease-in-out shadow-2xl lg:shadow-none
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        lg:translate-x-0 lg:static lg:inset-auto
+      `}>
+        
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between mb-4 lg:hidden">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Dersler</h2>
+          <button 
+            onClick={onClose}
+            className="p-2 text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
         <input
           type="text"
@@ -126,6 +155,7 @@ export default function Sidebar({ courses, onAddCourse, onRemoveFromSchedule, on
       {/* <div className="mt-4 flex justify-center shrink-0">
         <AdPlaceholder width="300px" height="250px" text="Sponsorlu Alan" />
       </div> */}
-    </div>
+      </div>
+    </>
   );
 }

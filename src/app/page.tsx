@@ -7,7 +7,7 @@ import { translations } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar';
 import Calendar from '@/components/Calendar';
 import SettingsModal from '@/components/SettingsModal';
-import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown } from 'lucide-react';
+import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import AdPlaceholder from '@/components/AdPlaceholder';
 import { toPng } from 'html-to-image';
@@ -20,6 +20,7 @@ export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -245,19 +246,25 @@ export default function Home() {
   return (
     <main className="flex h-screen flex-col bg-white dark:bg-gray-950 overflow-hidden font-sans text-gray-900 dark:text-gray-100 transition-colors">
       {/* Top Navigation Bar */}
-      <header className="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6 bg-white dark:bg-gray-900 shrink-0 z-50 relative transition-colors">
+      <header className="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 lg:px-6 bg-white dark:bg-gray-900 shrink-0 z-50 relative transition-colors">
         <div className="flex items-center gap-3">
-          <div className="bg-blue-500 p-2 rounded-lg text-white shadow-lg shadow-blue-500/30">
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="lg:hidden p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+          >
+            <Menu size={24} />
+          </button>
+          <div className="bg-blue-500 p-2 rounded-lg text-white shadow-lg shadow-blue-500/30 hidden sm:block">
             <GraduationCap size={24} />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-800 dark:text-white leading-none">UniPlanner <span className="text-blue-500">Pro</span></h1>
-            <p className="text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">{t.semesterPlanner}</p>
+            <h1 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white leading-none">UniPlanner <span className="text-blue-500">Pro</span></h1>
+            <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 hidden sm:block">{t.semesterPlanner}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-1.5 border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
+        <div className="flex items-center gap-2 sm:gap-6">
+          <div className="hidden md:flex items-center bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-1.5 border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
             <div className="flex flex-col items-center px-3 border-r border-gray-200 dark:border-gray-700">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t.totalCourse}</span>
               <span className="text-lg font-bold text-blue-600 dark:text-blue-400 leading-none mt-0.5">{selectedCourses.length}</span>
@@ -268,7 +275,7 @@ export default function Home() {
             </div>
           </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2">
             <ModeToggle />
 
             {/* Language Dropdown */}
@@ -386,8 +393,7 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden relative">
-        <div className="hidden lg:block">
-          <Sidebar 
+        <Sidebar 
           courses={allCourses}
           onAddCourse={handleAddCourse} 
           onRemoveFromSchedule={handleRemoveFromSchedule}
@@ -396,8 +402,9 @@ export default function Home() {
           onDeleteCourse={handleDeleteCourse}
           addedCourseIds={selectedCourses.map(c => c.id)} 
           settings={settings}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
         />
-        </div>
         <div id="calendar-container" className="flex-1 h-full overflow-auto flex flex-col bg-white dark:bg-gray-950">
           {/* Ad Space - Top of Calendar (Leaderboard) */}
           {/* <div className="w-full flex justify-center py-2 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0 print:hidden">

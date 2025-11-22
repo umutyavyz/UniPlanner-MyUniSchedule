@@ -143,16 +143,16 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-fade-in">
-        <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-900 z-10">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{initialData ? t.edit : t.addCourse}</h2>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-fade-in mx-2 sm:mx-0">
+        <div className="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-900 z-10">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{initialData ? t.edit : t.addCourse}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
             <X size={24} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.courseCode}</label>
               <input
@@ -210,7 +210,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.type}</label>
               <select
@@ -224,7 +224,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.color}</label>
-              <div className="flex gap-2 mt-2" role="radiogroup" aria-label={t.color}>
+              <div className="flex gap-2 mt-2 flex-wrap" role="radiogroup" aria-label={t.color}>
                 {COLORS.map((c, idx) => (
                   <button
                     key={c}
@@ -255,33 +255,35 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
             </div>
             <div className="space-y-2">
               {schedules.map((schedule, index) => (
-                <div key={index} className="flex gap-2 items-start">
+                <div key={index} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center bg-gray-50 dark:bg-gray-800/50 p-2 rounded-lg sm:bg-transparent sm:p-0">
                   <select
                     value={schedule.day}
                     onChange={(e) => updateSchedule(index, 'day', e.target.value)}
-                    className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full sm:flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   >
                     {DAYS.map(day => (
                       <option key={day} value={day}>{getDayLabel(day)}</option>
                     ))}
                   </select>
-                  <input
-                    type="time"
-                    value={schedule.startTime}
-                    onChange={(e) => updateSchedule(index, 'startTime', e.target.value)}
-                    className="w-32 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  />
-                  <span className="self-center text-gray-400 shrink-0">-</span>
-                  <input
-                    type="time"
-                    value={schedule.endTime}
-                    onChange={(e) => updateSchedule(index, 'endTime', e.target.value)}
-                    className="w-32 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  />
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <input
+                      type="time"
+                      value={schedule.startTime}
+                      onChange={(e) => updateSchedule(index, 'startTime', e.target.value)}
+                      className="flex-1 sm:w-32 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                    <span className="self-center text-gray-400 shrink-0 hidden sm:block">-</span>
+                    <input
+                      type="time"
+                      value={schedule.endTime}
+                      onChange={(e) => updateSchedule(index, 'endTime', e.target.value)}
+                      className="flex-1 sm:w-32 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                  </div>
                   <button
                     type="button"
                     onClick={() => removeSchedule(index)}
-                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg shrink-0"
+                    className="w-full sm:w-auto p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg shrink-0 flex justify-center items-center"
                   >
                     <Trash2 size={16} />
                   </button>

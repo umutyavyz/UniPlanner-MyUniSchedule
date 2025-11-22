@@ -94,19 +94,19 @@ export default function Calendar({ courses, settings }: CalendarProps) {
   return (
     <div className="flex-1 h-full overflow-auto bg-white dark:bg-gray-950 relative flex flex-col transition-colors">
       {/* Header */}
-      <div className="flex border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-20 transition-colors">
-        <div className="w-20 shrink-0 border-r border-gray-100 dark:border-gray-800"></div>
+      <div className="flex border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-20 transition-colors min-w-[800px] lg:min-w-0">
+        <div className="w-12 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 sticky left-0 bg-white dark:bg-gray-900 z-30"></div>
         {daysToShow.map(day => (
-          <div key={day} className="flex-1 py-4 text-center font-semibold text-gray-600 dark:text-gray-300 border-r border-gray-100 dark:border-gray-800 last:border-r-0 capitalize">
+          <div key={day} className="flex-1 py-4 text-center font-semibold text-gray-600 dark:text-gray-300 border-r border-gray-100 dark:border-gray-800 last:border-r-0 capitalize text-sm sm:text-base">
             {t.days[day as keyof typeof t.days]}
           </div>
         ))}
       </div>
 
       {/* Grid */}
-      <div className="flex relative" style={{ minHeight: `${(END_HOUR - START_HOUR) * hourHeight}px` }}>
+      <div className="flex relative min-w-[800px] lg:min-w-0" style={{ minHeight: `${(END_HOUR - START_HOUR) * hourHeight}px` }}>
         {/* Time Column */}
-        <div className="w-20 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 transition-colors">
+        <div className="w-12 sm:w-20 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 transition-colors sticky left-0 z-30">
           {timeSlots.map((slot, i) => {
              // Only show label for full hours or if increment is large enough
              if (slot.min !== 0 && settings.timeIncrement < 30) return null;
