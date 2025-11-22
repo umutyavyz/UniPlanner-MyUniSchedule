@@ -44,12 +44,6 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
         </div>
       </section>
 
-      {/* Ad Space */}
-      <div className="w-full flex justify-center py-8 bg-gray-50 dark:bg-gray-900">
-        <AdPlaceholder width="728px" height="90px" className="hidden md:flex" />
-        <AdPlaceholder width="300px" height="250px" className="md:hidden" />
-      </div>
-
       {/* Breeze Section (Tablet Image) */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 relative">
@@ -123,12 +117,6 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
             </p>
         </div>
       </section>
-
-      {/* Ad Space */}
-      <div className="w-full flex justify-center py-8 bg-white dark:bg-gray-950">
-        <AdPlaceholder width="728px" height="90px" className="hidden md:flex" />
-        <AdPlaceholder width="300px" height="250px" className="md:hidden" />
-      </div>
 
       {/* How To Section */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">

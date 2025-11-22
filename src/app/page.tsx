@@ -413,11 +413,6 @@ export default function Home() {
           onClose={() => setIsSidebarOpen(false)}
         />
         <div id="calendar-container" className="flex-1 h-full overflow-auto flex flex-col bg-white dark:bg-gray-950">
-          {/* Ad Space - Top of Calendar (Leaderboard) */}
-          <div className="w-full flex justify-center py-2 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0 print:hidden">
-            <AdPlaceholder width="728px" height="90px" className="hidden md:flex" text="Sponsorlu Alan (Leaderboard)" />
-            <AdPlaceholder width="320px" height="50px" className="md:hidden" text="Sponsorlu Alan" />
-          </div>
           <Calendar courses={selectedCourses} settings={settings} />
         </div>
       </div>
