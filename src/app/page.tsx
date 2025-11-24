@@ -7,10 +7,12 @@ import { translations } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar';
 import Calendar from '@/components/Calendar';
 import SettingsModal from '@/components/SettingsModal';
-import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu } from 'lucide-react';
+import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileSpreadsheet, FileJson, Upload, Copy, Share2, Loader2 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import AdPlaceholder from '@/components/AdPlaceholder';
 import LandingPage from '@/components/LandingPage';
+import ConfirmationDialog from '@/components/ConfirmationDialog';
+import DownloadOverlay, { ExportStatus } from '@/components/DownloadOverlay';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
@@ -25,8 +27,25 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [exportStatus, setExportStatus] = useState<ExportStatus>('idle');
+  
+  // Confirmation Dialog State
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    isDestructive?: boolean;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    isDestructive: false
+  });
 
   const appRef = React.useRef<HTMLDivElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const scrollToApp = () => {
     appRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,9 +56,55 @@ export default function Home() {
     const savedSelectedCourses = localStorage.getItem('selectedCourses');
     const savedSettings = localStorage.getItem('settings');
     
-    if (savedAllCourses) setAllCourses(JSON.parse(savedAllCourses));
-    if (savedSelectedCourses) setSelectedCourses(JSON.parse(savedSelectedCourses));
-    if (savedSettings) setSettings({ ...defaultSettings, ...JSON.parse(savedSettings) });
+    // Check for shared URL data
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedData = urlParams.get('data');
+
+    if (sharedData) {
+      try {
+        const decoded = decodeURIComponent(atob(sharedData));
+        const data = JSON.parse(decoded);
+        
+        // Map minified data back to full structure
+        if (data.s) {
+          const courses: ScheduledCourse[] = data.s.map((c: any) => ({
+            id: c.id,
+            code: c.c,
+            name: c.n,
+            instructor: c.i,
+            classroom: c.r,
+            credits: c.cr,
+            type: c.t,
+            color: c.co,
+            schedule: c.sc.map((s: any) => ({ day: s.d, startTime: s.s, endTime: s.e }))
+          }));
+          
+          setSelectedCourses(courses);
+          // Also add to all courses if not present (simplified)
+          setAllCourses(courses);
+          
+          // Clean URL
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+      } catch (e) {
+        console.error('Error parsing shared data', e);
+      }
+    } else {
+      if (savedAllCourses) setAllCourses(JSON.parse(savedAllCourses));
+      if (savedSelectedCourses) setSelectedCourses(JSON.parse(savedSelectedCourses));
+    }
+    
+    if (savedSettings) {
+      setSettings({ ...defaultSettings, ...JSON.parse(savedSettings) });
+    } else {
+      // Detect browser language for default
+      const browserLang = navigator.language;
+      const isTurkish = browserLang.toLowerCase().startsWith('tr');
+      setSettings({
+        ...defaultSettings,
+        language: isTurkish ? 'tr' : 'en'
+      });
+    }
     
     setIsLoaded(true);
     setIsLoading(false);
@@ -93,10 +158,16 @@ export default function Home() {
   };
 
   const handleDeleteCourse = (courseId: string) => {
-    if (confirm(t.confirmDeleteCourse)) {
-      setAllCourses(allCourses.filter(c => c.id !== courseId));
-      setSelectedCourses(selectedCourses.filter(c => c.id !== courseId));
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: t.deleteCourse,
+      message: t.confirmDeleteCourse,
+      isDestructive: true,
+      onConfirm: () => {
+        setAllCourses(allCourses.filter(c => c.id !== courseId));
+        setSelectedCourses(selectedCourses.filter(c => c.id !== courseId));
+      }
+    });
   };
 
   const handleAddCourse = (course: Course) => {
@@ -113,29 +184,69 @@ export default function Home() {
   };
 
   const handleDeleteAll = () => {
-    if (confirm(t.confirmDeleteAll)) {
-      setAllCourses([]);
-      setSelectedCourses([]);
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: t.deleteAll,
+      message: t.confirmDeleteAll,
+      isDestructive: true,
+      onConfirm: () => {
+        setAllCourses([]);
+        setSelectedCourses([]);
+      }
+    });
   };
 
   const handleReset = () => {
-    if (confirm(t.confirmResetSchedule)) {
-      setSelectedCourses([]);
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: t.resetSchedule,
+      message: t.confirmResetSchedule,
+      isDestructive: true,
+      onConfirm: () => {
+        setSelectedCourses([]);
+      }
+    });
   };
 
   const handleDownloadImage = async () => {
+    setExportStatus('loading');
     const element = document.getElementById('calendar-container');
-    if (!element) return;
+    if (!element) {
+      setExportStatus('idle');
+      return;
+    }
+
+    // Find the scrollable element to get the full height
+    const scrollableElement = element.querySelector('.overflow-auto');
+    const fullHeight = scrollableElement ? scrollableElement.scrollHeight : element.scrollHeight;
 
     try {
+      // Wait a bit for UI to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const dataUrl = await toPng(element, {
         quality: 1.0,
         pixelRatio: 2,
+        height: fullHeight,
         backgroundColor: document.documentElement.classList.contains('dark') ? '#030712' : '#ffffff',
         filter: (node) => {
           return !node.classList?.contains('print:hidden');
+        },
+        style: {
+          height: `${fullHeight}px`,
+          maxHeight: 'none',
+          overflow: 'visible',
+          borderRadius: '0',
+          border: 'none',
+          boxShadow: 'none'
+        },
+        // @ts-ignore
+        onClone: (clonedNode: HTMLElement) => {
+           const inner = clonedNode.querySelector('.overflow-auto') as HTMLElement;
+           if (inner) {
+               inner.style.overflow = 'visible';
+               inner.style.height = 'auto';
+           }
         }
       });
       
@@ -145,10 +256,13 @@ export default function Home() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      setExportStatus('success');
+      setTimeout(() => setExportStatus('idle'), 2000);
     } catch (err) {
       console.error("Ekran görüntüsü hatası:", err);
-      setError(t.imageDownloadError);
-      setTimeout(() => setError(null), 3000);
+      setExportStatus('error');
+      setTimeout(() => setExportStatus('idle'), 2000);
     }
   };
 
@@ -203,24 +317,194 @@ export default function Home() {
     document.body.removeChild(link);
   };
 
+  const handleDownloadCSV = () => {
+    // Create CSV content
+    const headers = ['Course Code', 'Course Name', 'Instructor', 'Classroom', 'Day', 'Start Time', 'End Time', 'Type', 'Credits'];
+    const rows = selectedCourses.flatMap(course => 
+      course.schedule.map(sch => [
+        course.code,
+        course.name,
+        course.instructor,
+        course.classroom || '',
+        sch.day,
+        sch.startTime,
+        sch.endTime,
+        course.type,
+        course.credits
+      ])
+    );
+
+    // Use semicolon (;) for better Excel compatibility in TR/EU regions
+    // Escape quotes in content
+    const processRow = (row: any[]) => row.map(cell => {
+      const cellStr = String(cell || '');
+      return `"${cellStr.replace(/"/g, '""')}"`;
+    }).join(';');
+
+    const csvContent = [
+      headers.join(';'),
+      ...rows.map(processRow)
+    ].join('\n');
+
+    // Add BOM (\uFEFF) so Excel recognizes UTF-8 encoding
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'ders_programi.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleBackup = () => {
+    const backupData = {
+      allCourses,
+      selectedCourses,
+      settings,
+      version: '1.0',
+      timestamp: new Date().toISOString()
+    };
+
+    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `uniplanner_backup_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleRestore = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const data = JSON.parse(content);
+        
+        if (data.allCourses && data.selectedCourses && data.settings) {
+          setAllCourses(data.allCourses);
+          setSelectedCourses(data.selectedCourses);
+          setSettings(data.settings);
+          setError(t.restoreSuccess);
+          setTimeout(() => setError(null), 3000);
+        } else {
+          throw new Error('Invalid format');
+        }
+      } catch (err) {
+        console.error('Restore error:', err);
+        setError(t.restoreError);
+        setTimeout(() => setError(null), 3000);
+      }
+    };
+    reader.readAsText(file);
+    // Reset input
+    event.target.value = '';
+  };
+
+  const handleCopyText = () => {
+    const daysMap: Record<string, string[]> = {};
+    
+    selectedCourses.forEach(course => {
+      course.schedule.forEach(sch => {
+        if (!daysMap[sch.day]) daysMap[sch.day] = [];
+        daysMap[sch.day].push(`${sch.startTime}-${sch.endTime}: ${course.code} (${course.classroom || ''})`);
+      });
+    });
+
+    // Sort days
+    const orderedDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+    let text = '';
+
+    orderedDays.forEach(day => {
+      if (daysMap[day] && daysMap[day].length > 0) {
+        // Sort times
+        daysMap[day].sort();
+        text += `${day}:\n${daysMap[day].join('\n')}\n\n`;
+      }
+    });
+
+    navigator.clipboard.writeText(text).then(() => {
+      setError(t.textCopied);
+      setTimeout(() => setError(null), 3000);
+    });
+  };
+
+  const handleShareURL = () => {
+    const data = {
+      s: selectedCourses.map(c => ({
+        id: c.id,
+        c: c.code,
+        n: c.name,
+        i: c.instructor,
+        r: c.classroom,
+        cr: c.credits,
+        t: c.type,
+        co: c.color,
+        sc: c.schedule.map(s => ({ d: s.day, s: s.startTime, e: s.endTime }))
+      }))
+    };
+    
+    const jsonString = JSON.stringify(data);
+    const encoded = btoa(encodeURIComponent(jsonString));
+    const url = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
+    
+    navigator.clipboard.writeText(url).then(() => {
+      setError(t.urlCopied);
+      setTimeout(() => setError(null), 3000);
+    });
+  };
+
   const handleDownloadPDF = async () => {
+    setExportStatus('loading');
     const element = document.getElementById('calendar-container');
-    if (!element) return;
+    if (!element) {
+      setExportStatus('idle');
+      return;
+    }
+
+    // Find the scrollable element to get the full height
+    const scrollableElement = element.querySelector('.overflow-auto');
+    const fullHeight = scrollableElement ? scrollableElement.scrollHeight : element.scrollHeight;
 
     try {
+      // Wait a bit for UI to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const dataUrl = await toPng(element, {
         quality: 1.0,
         pixelRatio: 2,
+        height: fullHeight,
         backgroundColor: document.documentElement.classList.contains('dark') ? '#030712' : '#ffffff',
         filter: (node) => {
           return !node.classList?.contains('print:hidden');
+        },
+        style: {
+          height: `${fullHeight}px`,
+          maxHeight: 'none',
+          overflow: 'visible',
+          borderRadius: '0',
+          border: 'none',
+          boxShadow: 'none'
+        },
+        // @ts-ignore
+        onClone: (clonedNode: HTMLElement) => {
+           const inner = clonedNode.querySelector('.overflow-auto') as HTMLElement;
+           if (inner) {
+               inner.style.overflow = 'visible';
+               inner.style.height = 'auto';
+           }
         }
       });
 
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'px',
-        format: [element.offsetWidth, element.offsetHeight]
+        format: [element.offsetWidth, fullHeight]
       });
 
       const imgProps = pdf.getImageProperties(dataUrl);
@@ -229,11 +513,14 @@ export default function Home() {
 
       pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('ders_programi.pdf');
+      
+      setExportStatus('success');
+      setTimeout(() => setExportStatus('idle'), 2000);
 
     } catch (err) {
       console.error("PDF oluşturma hatası:", err);
-      setError(t.imageDownloadError);
-      setTimeout(() => setError(null), 3000);
+      setExportStatus('error');
+      setTimeout(() => setExportStatus('idle'), 2000);
     }
   };
 
@@ -251,38 +538,38 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-white dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 transition-colors">
-      {/* Top Navigation Bar */}
-      <header className="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 lg:px-6 bg-white dark:bg-gray-900 shrink-0 z-50 sticky top-0 transition-colors">
+    <main className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 transition-colors selection:bg-blue-100 dark:selection:bg-blue-900">
+      {/* Top Navigation Bar - Glassmorphism Style */}
+      <header className="h-16 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-50 transition-all bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 supports-backdrop-filter:bg-white/60">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            className="lg:hidden p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
           >
             <Menu size={24} />
           </button>
-          <div className="bg-blue-500 p-2 rounded-lg text-white shadow-lg shadow-blue-500/30 hidden sm:block">
-            <GraduationCap size={24} />
+          <div className="bg-linear-to-tr from-blue-600 to-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20 hidden sm:block transform hover:scale-105 transition-transform duration-300">
+            <GraduationCap size={22} />
           </div>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white leading-none">UniPlanner <span className="text-blue-500">Pro</span></h1>
-            <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 hidden sm:block">{t.semesterPlanner}</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">UniPlanner <span className="text-blue-600 dark:text-blue-400">Pro</span></h1>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 hidden sm:block opacity-80">{t.semesterPlanner}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-6">
-          <div className="hidden md:flex items-center bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-1.5 border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
-            <div className="flex flex-col items-center px-3 border-r border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3 sm:gap-6">
+          <div className="hidden md:flex items-center bg-gray-100/50 dark:bg-gray-800/50 rounded-2xl px-1 py-1 border border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex flex-col items-center px-4 py-1 border-r border-gray-200 dark:border-gray-700">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t.totalCourse}</span>
-              <span className="text-lg font-bold text-blue-600 dark:text-blue-400 leading-none mt-0.5">{selectedCourses.length}</span>
+              <span className="text-lg font-bold text-gray-900 dark:text-white leading-none mt-0.5">{selectedCourses.length}</span>
             </div>
-            <div className="flex flex-col items-center px-3">
+            <div className="flex flex-col items-center px-4 py-1">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t.totalCredit}</span>
-              <span className="text-lg font-bold text-green-600 dark:text-green-400 leading-none mt-0.5">{totalCredits}</span>
+              <span className="text-lg font-bold text-gray-900 dark:text-white leading-none mt-0.5">{totalCredits}</span>
             </div>
           </div>
 
-                    <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="flex items-center gap-2">
             <ModeToggle />
 
             {/* Language Dropdown */}
@@ -351,13 +638,14 @@ export default function Home() {
               {isExportOpen && (
                 <>
                   <div className="fixed inset-0 z-30" onClick={() => setIsExportOpen(false)}></div>
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 p-1 z-40 animate-fade-in">
+                  <div className="absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 p-1 z-40 animate-fade-in max-h-[80vh] overflow-y-auto">
                     <button 
                       onClick={() => {
                         handleDownloadImage();
                         setIsExportOpen(false);
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                      disabled={exportStatus !== 'idle'}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <ImageDown size={16} />
                       {t.downloadImage}
@@ -367,7 +655,8 @@ export default function Home() {
                         handleDownloadPDF();
                         setIsExportOpen(false);
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                      disabled={exportStatus !== 'idle'}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Printer size={16} />
                       {t.print}
@@ -382,10 +671,70 @@ export default function Home() {
                       <CalendarPlus size={16} />
                       {t.addToCalendar}
                     </button>
+                    <div className="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
+                    <button 
+                      onClick={() => {
+                        handleDownloadCSV();
+                        setIsExportOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <FileSpreadsheet size={16} />
+                      {t.downloadCSV}
+                    </button>
+                    <button 
+                      onClick={() => {
+                        handleCopyText();
+                        setIsExportOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <Copy size={16} />
+                      {t.copyText}
+                    </button>
+                    <button 
+                      onClick={() => {
+                        handleShareURL();
+                        setIsExportOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <Share2 size={16} />
+                      {t.shareURL}
+                    </button>
+                    <div className="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
+                    <button 
+                      onClick={() => {
+                        handleBackup();
+                        setIsExportOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <FileJson size={16} />
+                      {t.backup}
+                    </button>
+                    <button 
+                      onClick={() => {
+                        fileInputRef.current?.click();
+                        setIsExportOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <Upload size={16} />
+                      {t.restore}
+                    </button>
                   </div>
                 </>
               )}
             </div>
+            
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleRestore} 
+              className="hidden" 
+              accept=".json"
+            />
             
             <button 
               onClick={() => setIsSettingsOpen(true)}
@@ -399,7 +748,7 @@ export default function Home() {
       </header>
 
       {/* Main App Content */}
-      <div ref={appRef} className="flex flex-col lg:flex-row h-[calc(100vh-64px)] relative overflow-hidden">
+      <div ref={appRef} className="flex flex-col lg:flex-row h-[calc(100vh-64px)] relative overflow-hidden bg-gray-50/50 dark:bg-gray-950 lg:p-6 lg:gap-6">
         <Sidebar 
           courses={allCourses}
           onAddCourse={handleAddCourse} 
@@ -412,7 +761,7 @@ export default function Home() {
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
         />
-        <div id="calendar-container" className="flex-1 h-full overflow-auto flex flex-col bg-white dark:bg-gray-950">
+        <div id="calendar-container" className="flex-1 h-full overflow-hidden flex flex-col bg-white dark:bg-gray-900 lg:rounded-2xl lg:border lg:border-gray-200/60 lg:dark:border-gray-800 lg:shadow-xl lg:shadow-gray-200/50 lg:dark:shadow-none transition-all">
           <Calendar courses={selectedCourses} settings={settings} />
         </div>
       </div>
@@ -427,6 +776,26 @@ export default function Home() {
         onUpdateSettings={setSettings}
         onResetSchedule={handleReset}
         onDeleteAll={handleDeleteAll}
+      />
+
+      <ConfirmationDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
+        onConfirm={confirmDialog.onConfirm}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        isDestructive={confirmDialog.isDestructive}
+        confirmText={t.yes}
+        cancelText={t.no}
+      />
+
+      <DownloadOverlay 
+        status={exportStatus}
+        messages={{
+          loading: t.preparingDownload,
+          success: t.downloadSuccess,
+          error: t.downloadError
+        }}
       />
 
       {/* Error Toast */}

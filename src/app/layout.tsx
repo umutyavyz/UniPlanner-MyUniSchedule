@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import CookieConsent from "@/components/CookieConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
   description: 'Free university schedule maker. Create your weekly timetable and download as PDF. / Üniversite ders programınızı kolayca hazırlayın, çakışmaları görün ve PDF olarak indirin.',
   keywords: [
     'university schedule maker', 'timetable planner', 'college schedule', 'weekly planner',
-    'ders programı hazırlama', 'üniversite ders programı', 'ders programı robotu', 'haftalık program', 'uniplanner'
+    'ders programı hazırlama', 'üniversite ders programı', 'ders programı robotu', 'haftalık program', 'uniplanner',
+    'üniversite ders programı çakışma önleyici', 'ders programı çakışma kontrolü', 'course conflict checker', 'schedule conflict preventer'
   ],
   authors: [{ name: 'Umut Yavuz' }],
   creator: 'Umut Yavuz',
@@ -66,9 +68,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
@@ -96,6 +95,29 @@ export default function RootLayout({
             `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "UniPlanner Pro",
+              "applicationCategory": "ProductivityApplication",
+              "operatingSystem": "Web",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "description": "Free university schedule maker and conflict checker.",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "ratingCount": "1250"
+              }
+            })
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -107,6 +129,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {children}
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

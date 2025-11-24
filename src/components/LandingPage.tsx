@@ -4,6 +4,7 @@ import { Settings } from '@/types/settings';
 import AdPlaceholder from './AdPlaceholder';
 import Link from 'next/link';
 import { GraduationCap, Briefcase, Home, CheckCircle2, ArrowRight, ShieldCheck, Printer, Share2, Lock } from 'lucide-react';
+import SEOContent from './SEOContent';
 
 interface LandingPageProps {
   settings: Settings;
@@ -48,16 +49,30 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 relative">
            {/* Placeholder for Tablet Image - Using a CSS representation */}
-           <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[300px] w-[450px] md:h-[400px] md:w-[600px] shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+           <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[300px] w-[450px] md:h-[400px] md:w-[600px] shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 <div className="h-[32px] w-[3px] bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
-                <div className="h-full w-full overflow-hidden rounded-[2rem] bg-white dark:bg-gray-900 flex items-center justify-center">
-                    <div className="grid grid-cols-3 gap-4 p-8 w-full opacity-50">
-                        <div className="h-24 bg-blue-200 rounded-lg col-span-1"></div>
-                        <div className="h-24 bg-red-200 rounded-lg col-span-2"></div>
-                        <div className="h-24 bg-green-200 rounded-lg col-span-2"></div>
-                        <div className="h-24 bg-yellow-200 rounded-lg col-span-1"></div>
+                <div className="h-full w-full overflow-hidden rounded-[2rem] bg-white dark:bg-gray-900 flex relative">
+                    {/* Mock UI */}
+                    <div className="absolute inset-0 bg-gray-50 dark:bg-gray-900 flex">
+                      {/* Sidebar Mock */}
+                      <div className="w-1/4 h-full border-r border-gray-200 dark:border-gray-800 p-4 space-y-3 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+                        <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded-lg w-3/4 mb-6"></div>
+                        <div className="h-16 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm"></div>
+                        <div className="h-16 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm"></div>
+                        <div className="h-16 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm"></div>
+                      </div>
+                      {/* Calendar Mock */}
+                      <div className="flex-1 p-4">
+                        <div className="h-full bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 grid grid-cols-5 gap-2">
+                           <div className="col-span-1 bg-blue-100/50 dark:bg-blue-900/20 rounded-lg h-24 mt-8"></div>
+                           <div className="col-span-1 bg-green-100/50 dark:bg-green-900/20 rounded-lg h-32 mt-4"></div>
+                           <div className="col-span-1 bg-purple-100/50 dark:bg-purple-900/20 rounded-lg h-20 mt-12"></div>
+                           <div className="col-span-1 bg-orange-100/50 dark:bg-orange-900/20 rounded-lg h-28 mt-2"></div>
+                           <div className="col-span-1 bg-red-100/50 dark:bg-red-900/20 rounded-lg h-24 mt-10"></div>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -107,7 +122,7 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
       </section>
 
       {/* Impact Banner */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 text-center">
+      <section className="py-16 px-4 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 text-center">
         <div className="max-w-4xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
                 "{tl.impact.text}"
@@ -141,6 +156,9 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
         </div>
       </section>
 
+      {/* SEO Content - Placed before FAQ for better flow */}
+      <SEOContent settings={settings} />
+
       {/* FAQ Section */}
       <section className="py-20 px-4 md:px-8 max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{tl.faq.title}</h2>
@@ -161,14 +179,31 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
       </section>
 
       {/* CTA Footer */}
-      <section className="py-24 px-4 bg-gray-50 dark:bg-gray-900 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 max-w-2xl mx-auto">{tl.cta.title}</h2>
-        <button 
-            onClick={onStart}
-            className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:opacity-90 transition-opacity shadow-lg"
-        >
-            {tl.cta.button}
-        </button>
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-br from-blue-600 to-indigo-700 dark:from-blue-900 dark:to-indigo-900 opacity-10 dark:opacity-20"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl"></div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white tracking-tight">
+                {tl.cta.title}
+            </h2>
+            <div className="flex justify-center items-center gap-4">
+                <button 
+                    onClick={onStart}
+                    className="group relative px-8 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold text-xl shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 transform hover:-translate-y-1"
+                >
+                    <span className="flex items-center gap-3">
+                        {tl.cta.button}
+                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 rounded-2xl ring-2 ring-white/20 group-hover:ring-white/40 transition-all"></div>
+                </button>
+            </div>
+            <p className="mt-6 text-gray-500 dark:text-gray-400 text-sm font-medium">
+                {settings.language === 'tr' ? 'Ücretsiz • Üyelik Gerektirmez • Anında İndir' : 'Free • No Sign Up Required • Instant Download'}
+            </p>
+        </div>
       </section>
 
       {/* Simple Footer */}

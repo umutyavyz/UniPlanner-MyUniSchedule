@@ -66,95 +66,96 @@ export default function Sidebar({ courses, onAddCourse, onRemoveFromSchedule, on
 
       <div className={`
         fixed inset-y-0 left-0 z-50 w-[85vw] sm:w-[400px] flex flex-col h-full 
-        bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 
-        p-4 overflow-hidden transition-all duration-300 ease-in-out shadow-2xl lg:shadow-none
+        bg-white dark:bg-gray-900 border-r lg:border-0 border-gray-200 dark:border-gray-800 
+        p-5 overflow-hidden transition-all duration-300 ease-in-out shadow-2xl lg:shadow-xl lg:shadow-gray-200/50 lg:dark:shadow-none
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 lg:static lg:inset-auto
+        lg:translate-x-0 lg:static lg:inset-auto lg:h-full lg:rounded-[2rem] lg:border lg:border-gray-200/60 lg:dark:border-gray-800
       `}>
         
         {/* Mobile Header */}
-        <div className="flex items-center justify-between mb-4 lg:hidden">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Dersler</h2>
+        <div className="flex items-center justify-between mb-6 lg:hidden">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Dersler</h2>
           <button 
             onClick={onClose}
-            className="p-2 text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg"
+            className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Search */}
-        <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-        <input
-          type="text"
-          placeholder={t.searchPlaceholder}
-          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      {/* Filters */}
-      <div className="flex gap-2 mb-4">
-        {(['all', 'compulsory', 'elective'] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f === 'all' ? 'Tümü' : f === 'compulsory' ? 'Zorunlu' : 'Seçmeli')}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
-              (f === 'all' && filter === 'Tümü') || (f === 'compulsory' && filter === 'Zorunlu') || (f === 'elective' && filter === 'Seçmeli')
-                ? 'bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-900 text-blue-600 dark:text-blue-400 shadow-sm'
-                : 'bg-gray-200/50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'
-            }`}
-          >
-            {t[f]}
-          </button>
-        ))}
-      </div>
-
-      {/* Add Custom Course Button */}
-      <button 
-        onClick={() => setIsModalOpen(true)}
-        className="w-full py-3 mb-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-200 font-semibold flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
-      >
-        <PlusCircle size={20} />
-        {t.addCourse}
-      </button>
-
-      <AddCourseModal 
-        isOpen={isModalOpen} 
-        onClose={handleModalClose} 
-        onSave={handleSaveCourse}
-        initialData={editingCourse}
-        settings={settings}
-        defaultColor={COLORS[courses.length % COLORS.length]}
-      />
-
-      {/* Course List */}
-      <div className="flex-1 overflow-y-auto pr-2 space-y-3 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
-        {filteredCourses.map(course => (
-          <CourseCard
-            key={course.id}
-            course={course}
-            onAdd={onAddCourse}
-            onRemove={onRemoveFromSchedule}
-            onEdit={handleEditClick}
-            onDelete={onDeleteCourse}
-            isAdded={addedCourseIds.includes(course.id)}
-            settings={settings}
+        <div className="relative mb-4 group">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={20} />
+          <input
+            type="text"
+            placeholder={t.searchPlaceholder}
+            className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 transition-all"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-        ))}
-        {filteredCourses.length === 0 && (
-          <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
-            {courses.length === 0 ? t.noCourseAdded : t.noCoursesFound}
-          </div>
-        )}
-      </div>
-      
-      {/* Ad Space - Bottom of Sidebar */}
-      {/* <div className="mt-4 flex justify-center shrink-0">
-        <AdPlaceholder width="300px" height="250px" text="Sponsorlu Alan" />
-      </div> */}
+        </div>
+
+        {/* Filters */}
+        <div className="flex gap-2 mb-6 p-1 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
+          {(['all', 'compulsory', 'elective'] as const).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f === 'all' ? 'Tümü' : f === 'compulsory' ? 'Zorunlu' : 'Seçmeli')}
+              className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                (f === 'all' && filter === 'Tümü') || (f === 'compulsory' && filter === 'Zorunlu') || (f === 'elective' && filter === 'Seçmeli')
+                  ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm scale-[1.02]'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+              }`}
+            >
+              {t[f]}
+            </button>
+          ))}
+        </div>
+
+        {/* Add Custom Course Button */}
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="w-full py-4 mb-6 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl font-semibold flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <PlusCircle size={22} />
+          {t.addCourse}
+        </button>
+
+        <AddCourseModal 
+          isOpen={isModalOpen} 
+          onClose={handleModalClose} 
+          onSave={handleSaveCourse}
+          initialData={editingCourse}
+          settings={settings}
+          defaultColor={COLORS[courses.length % COLORS.length]}
+        />
+
+        {/* Course List */}
+        <div className="flex-1 overflow-y-auto pr-1 -mr-1 space-y-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 hover:[&::-webkit-scrollbar-thumb]:bg-gray-300 dark:hover:[&::-webkit-scrollbar-thumb]:bg-gray-600">
+          {filteredCourses.map(course => (
+            <CourseCard
+              key={course.id}
+              course={course}
+              onAdd={onAddCourse}
+              onRemove={onRemoveFromSchedule}
+              onEdit={handleEditClick}
+              onDelete={onDeleteCourse}
+              isAdded={addedCourseIds.includes(course.id)}
+              settings={settings}
+            />
+          ))}
+          {filteredCourses.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-40 text-center text-gray-400 dark:text-gray-500 mt-4 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-2xl">
+              <Search size={32} className="mb-2 opacity-50" />
+              <p className="text-sm font-medium">{courses.length === 0 ? t.noCourseAdded : t.noCoursesFound}</p>
+            </div>
+          )}
+        </div>
+        
+        {/* Ad Space - Bottom of Sidebar */}
+        {/* <div className="mt-4 flex justify-center shrink-0">
+          <AdPlaceholder width="300px" height="250px" text="Sponsorlu Alan" />
+        </div> */}
       </div>
     </>
   );

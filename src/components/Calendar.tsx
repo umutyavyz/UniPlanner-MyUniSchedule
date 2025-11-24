@@ -92,12 +92,12 @@ export default function Calendar({ courses, settings }: CalendarProps) {
   };
 
   return (
-    <div className="flex-1 h-full overflow-auto bg-white dark:bg-gray-950 relative flex flex-col transition-colors">
+    <div className="flex-1 h-full overflow-auto bg-white dark:bg-gray-900 relative flex flex-col transition-colors [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
       {/* Header */}
-      <div className="flex border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-20 transition-colors min-w-[800px] lg:min-w-0">
-        <div className="w-12 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 sticky left-0 bg-white dark:bg-gray-900 z-30"></div>
+      <div className="flex border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-20 transition-colors min-w-[800px] lg:min-w-0">
+        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 sticky left-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-30"></div>
         {daysToShow.map(day => (
-          <div key={day} className="flex-1 py-4 text-center font-semibold text-gray-600 dark:text-gray-300 border-r border-gray-100 dark:border-gray-800 last:border-r-0 capitalize text-sm sm:text-base">
+          <div key={day} className="flex-1 py-4 text-center font-semibold text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-800 last:border-r-0 capitalize text-sm sm:text-base tracking-tight">
             {t.days[day as keyof typeof t.days]}
           </div>
         ))}
@@ -106,7 +106,7 @@ export default function Calendar({ courses, settings }: CalendarProps) {
       {/* Grid */}
       <div className="flex relative min-w-[800px] lg:min-w-0" style={{ minHeight: `${(END_HOUR - START_HOUR) * hourHeight}px` }}>
         {/* Time Column */}
-        <div className="w-12 sm:w-20 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 transition-colors sticky left-0 z-30">
+        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 bg-gray-50/30 dark:bg-gray-900/30 transition-colors sticky left-0 z-30 backdrop-blur-[2px]">
           {timeSlots.map((slot, i) => {
              // Only show label for full hours or if increment is large enough
              if (slot.min !== 0 && settings.timeIncrement < 30) return null;
@@ -116,11 +116,11 @@ export default function Calendar({ courses, settings }: CalendarProps) {
              return (
               <div 
                 key={i} 
-                className="relative w-full text-xs text-gray-500 dark:text-gray-400 flex items-start justify-end pr-2 font-medium"
+                className="relative w-full text-[11px] text-gray-400 dark:text-gray-500 flex items-start justify-end pr-3 font-medium tracking-wide"
                 style={{ 
                   height: isLast ? '0' : `${hourHeight}px`,
                   lineHeight: '1',
-                  paddingTop: '2px'
+                  paddingTop: '6px'
                 }}
               >
                 {formatTime(slot.hour, slot.min)}
@@ -131,12 +131,12 @@ export default function Calendar({ courses, settings }: CalendarProps) {
 
         {/* Days Columns */}
         {daysToShow.map(day => (
-          <div key={day} className="flex-1 border-r border-gray-100 dark:border-gray-800 last:border-r-0 relative bg-white dark:bg-gray-950 transition-colors">
+          <div key={day} className="flex-1 border-r border-gray-50 dark:border-gray-800/50 last:border-r-0 relative bg-white dark:bg-gray-900 transition-colors group">
             {/* Grid Lines */}
             {timeSlots.map((slot, i) => (
               <div 
                 key={i} 
-                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800' : 'border-gray-50 dark:border-gray-900 border-dashed'}`}
+                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800' : 'border-gray-50/50 dark:border-gray-800/30 border-dashed'}`}
                 style={{ 
                   top: `${(i * settings.timeIncrement / 60) * hourHeight}px`
                 }}
@@ -153,19 +153,38 @@ export default function Calendar({ courses, settings }: CalendarProps) {
                   return (
                     <div
                       key={`${course.id}-${i}`}
-                      className="absolute left-1 right-1 rounded-lg p-2 text-sm overflow-hidden shadow-sm border hover:brightness-95 transition-all cursor-pointer z-10 animate-fade-in"
+                      className="absolute left-1 right-1 rounded-xl p-2.5 text-sm overflow-hidden shadow-sm hover:shadow-md border-l-4 transition-all cursor-pointer z-10 animate-fade-in hover:z-20 group/card"
                       style={{ 
                         top: style.top, 
                         height: style.height,
-                        backgroundColor: `${color}15`,
-                        borderColor: color,
-                        color: color
+                        backgroundColor: `${color}10`, // Very light background
+                        borderLeftColor: color,
+                        borderTopColor: `${color}20`,
+                        borderRightColor: `${color}20`,
+                        borderBottomColor: `${color}20`,
+                        borderWidth: '1px 1px 1px 4px',
+                        color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#1f2937'
                       }}
                     >
-                      <div className="font-bold text-base">{course.code}</div>
-                      <div className="truncate font-medium text-gray-900 dark:text-gray-100">{course.name}</div>
-                      {course.classroom && <div className="truncate opacity-90 font-medium">{course.classroom}</div>}
-                      <div className="mt-1 opacity-80 text-xs">{s.startTime} - {s.endTime}</div>
+                      <div className="font-bold text-sm leading-tight mb-0.5 flex items-center gap-1.5 flex-wrap" style={{ color: color }}>
+                        {course.code}
+                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                          course.type === 'Zorunlu' 
+                            ? 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400' 
+                            : 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                        }`}>
+                          {course.type === 'Zorunlu' ? t.compulsory : t.elective}
+                        </span>
+                      </div>
+                      <div className="truncate font-semibold text-xs sm:text-sm text-gray-900 dark:text-gray-100 leading-tight">{course.name}</div>
+                      <div className="truncate text-xs text-gray-600 dark:text-gray-400 mt-0.5 font-medium">{course.instructor}</div>
+                      {course.classroom && <div className="truncate text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
+                        <span className="w-1 h-1 rounded-full bg-gray-400 inline-block"></span>
+                        {course.classroom}
+                      </div>}
+                      <div className="absolute bottom-1.5 right-1.5 text-[10px] font-bold bg-white/90 dark:bg-gray-900/90 px-1.5 py-0.5 rounded-md text-gray-700 dark:text-gray-300 backdrop-blur-sm shadow-sm border border-gray-100 dark:border-gray-700/50">
+                        {s.startTime} - {s.endTime}
+                      </div>
                     </div>
                   );
                 });
