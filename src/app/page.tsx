@@ -7,9 +7,8 @@ import { translations } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar';
 import Calendar from '@/components/Calendar';
 import SettingsModal from '@/components/SettingsModal';
-import { GraduationCap, Printer, Trash2, XCircle, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileSpreadsheet, FileJson, Upload, Copy, Share2, Loader2 } from 'lucide-react';
+import { GraduationCap, Printer, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileJson, Upload, Share2 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
-import AdPlaceholder from '@/components/AdPlaceholder';
 import LandingPage from '@/components/LandingPage';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 import DownloadOverlay, { ExportStatus } from '@/components/DownloadOverlay';
@@ -317,46 +316,6 @@ export default function Home() {
     document.body.removeChild(link);
   };
 
-  const handleDownloadCSV = () => {
-    // Create CSV content
-    const headers = ['Course Code', 'Course Name', 'Instructor', 'Classroom', 'Day', 'Start Time', 'End Time', 'Type', 'Credits'];
-    const rows = selectedCourses.flatMap(course => 
-      course.schedule.map(sch => [
-        course.code,
-        course.name,
-        course.instructor,
-        course.classroom || '',
-        sch.day,
-        sch.startTime,
-        sch.endTime,
-        course.type,
-        course.credits
-      ])
-    );
-
-    // Use semicolon (;) for better Excel compatibility in TR/EU regions
-    // Escape quotes in content
-    const processRow = (row: any[]) => row.map(cell => {
-      const cellStr = String(cell || '');
-      return `"${cellStr.replace(/"/g, '""')}"`;
-    }).join(';');
-
-    const csvContent = [
-      headers.join(';'),
-      ...rows.map(processRow)
-    ].join('\n');
-
-    // Add BOM (\uFEFF) so Excel recognizes UTF-8 encoding
-    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'ders_programi.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const handleBackup = () => {
     const backupData = {
       allCourses,
@@ -404,34 +363,6 @@ export default function Home() {
     reader.readAsText(file);
     // Reset input
     event.target.value = '';
-  };
-
-  const handleCopyText = () => {
-    const daysMap: Record<string, string[]> = {};
-    
-    selectedCourses.forEach(course => {
-      course.schedule.forEach(sch => {
-        if (!daysMap[sch.day]) daysMap[sch.day] = [];
-        daysMap[sch.day].push(`${sch.startTime}-${sch.endTime}: ${course.code} (${course.classroom || ''})`);
-      });
-    });
-
-    // Sort days
-    const orderedDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
-    let text = '';
-
-    orderedDays.forEach(day => {
-      if (daysMap[day] && daysMap[day].length > 0) {
-        // Sort times
-        daysMap[day].sort();
-        text += `${day}:\n${daysMap[day].join('\n')}\n\n`;
-      }
-    });
-
-    navigator.clipboard.writeText(text).then(() => {
-      setError(t.textCopied);
-      setTimeout(() => setError(null), 3000);
-    });
   };
 
   const handleShareURL = () => {
@@ -670,27 +601,6 @@ export default function Home() {
                     >
                       <CalendarPlus size={16} />
                       {t.addToCalendar}
-                    </button>
-                    <div className="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
-                    <button 
-                      onClick={() => {
-                        handleDownloadCSV();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <FileSpreadsheet size={16} />
-                      {t.downloadCSV}
-                    </button>
-                    <button 
-                      onClick={() => {
-                        handleCopyText();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <Copy size={16} />
-                      {t.copyText}
                     </button>
                     <button 
                       onClick={() => {

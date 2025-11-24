@@ -14,11 +14,13 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold mb-8">Contact Us / İletişim</h1>
         
         <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800 shadow-sm">
+          {/* Güncellenen Kısım Başlangıcı */}
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-            We'd love to hear from you! Whether you have a question about features, pricing, need a demo, or anything else, our team is ready to answer all your questions.
+            The application is currently under development and improvements are being made daily. If you encounter any bugs, errors, or have suggestions, please feel free to report them using the links below.
             <br /><br />
-            Bizimle iletişime geçmekten çekinmeyin! Özellikler, öneriler veya herhangi bir sorunuz varsa, size yardımcı olmaktan mutluluk duyarız.
+            Uygulama şu an geliştirme sürecindedir ve günden güne iyileştirmeler yapılmaktadır. Herhangi bir hata (bug), eksiklik veya öneriniz olursa, lütfen aşağıdaki bağlantılardan bize bildirmekten çekinmeyin.
           </p>
+          {/* Güncellenen Kısım Bitişi */}
 
           <div className="space-y-6">
             <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">
