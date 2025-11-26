@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { translations } from '@/lib/i18n';
 import { Settings } from '@/types/settings';
 import AdPlaceholder from './AdPlaceholder';
 import Link from 'next/link';
-import { GraduationCap, Briefcase, Home, CheckCircle2, ArrowRight, ShieldCheck, Printer, Share2, Lock } from 'lucide-react';
+import { GraduationCap, Briefcase, Home, CheckCircle2, ArrowRight, ShieldCheck, Printer, Share2, Lock, Calculator } from 'lucide-react';
 import SEOContent from './SEOContent';
 
 interface LandingPageProps {
@@ -14,6 +14,15 @@ interface LandingPageProps {
 export default function LandingPage({ settings, onStart }: LandingPageProps) {
   const t = translations[settings.language];
   const tl = t.landing;
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
+  useEffect(() => {
+    // @ts-ignore
+    if (tl.impactQuotes && tl.impactQuotes.length > 0) {
+      // @ts-ignore
+      setQuoteIndex(Math.floor(Math.random() * tl.impactQuotes.length));
+    }
+  }, []);
 
   return (
     <div className="w-full bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
@@ -125,10 +134,12 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
       <section className="py-16 px-4 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 text-center">
         <div className="max-w-4xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
-                "{tl.impact.text}"
+                {/* @ts-ignore */}
+                "{tl.impactQuotes && tl.impactQuotes[quoteIndex] ? tl.impactQuotes[quoteIndex].text : ''}"
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                {tl.impact.source}
+                {/* @ts-ignore */}
+                {tl.impactQuotes && tl.impactQuotes[quoteIndex] ? tl.impactQuotes[quoteIndex].source : ''}
             </p>
         </div>
       </section>
@@ -158,6 +169,63 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
 
       {/* SEO Content - Placed before FAQ for better flow */}
       <SEOContent settings={settings} />
+
+      {/* GPA Calculator Promo Section */}
+      <section className="py-20 px-4 md:px-8 bg-blue-50 dark:bg-blue-900/10 border-y border-blue-100 dark:border-blue-900/30">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          <div className="flex-1 order-2 md:order-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold mb-6">
+              <Calculator size={16} />
+              <span>New Feature</span>
+            </div>
+            {/* @ts-ignore */}
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">{tl.gpaPromo?.title || 'Calculate Your GPA in Seconds'}</h2>
+            {/* @ts-ignore */}
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">{tl.gpaPromo?.desc || 'Track your academic success with our easy-to-use GPA calculator.'}</p>
+            
+            <Link 
+              href="/gpa-calculator"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5"
+            >
+              <Calculator size={20} />
+              {/* @ts-ignore */}
+              <span>{tl.gpaPromo?.button || 'Try GPA Calculator'}</span>
+            </Link>
+          </div>
+          <div className="flex-1 flex justify-center order-1 md:order-2 w-full">
+            <div className="relative w-full max-w-md h-auto md:aspect-video bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 p-6 flex flex-col gap-4 md:transform md:rotate-2 md:hover:rotate-0 transition-transform duration-500">
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                </div>
+                <div className="text-xs font-mono text-gray-400">gpa-calc.exe</div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <span className="font-medium">Calculus I</span>
+                  <div className="flex gap-2">
+                    <span className="px-2 py-1 bg-white dark:bg-gray-600 rounded text-sm">AA</span>
+                    <span className="px-2 py-1 bg-white dark:bg-gray-600 rounded text-sm">4.0</span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <span className="font-medium">Physics I</span>
+                  <div className="flex gap-2">
+                    <span className="px-2 py-1 bg-white dark:bg-gray-600 rounded text-sm">BA</span>
+                    <span className="px-2 py-1 bg-white dark:bg-gray-600 rounded text-sm">3.5</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-4 bg-blue-600 text-white rounded-xl flex justify-between items-center">
+                  <span className="font-bold opacity-80">Total GPA</span>
+                  <span className="text-2xl font-bold">3.75</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section className="py-20 px-4 md:px-8 max-w-3xl mx-auto">

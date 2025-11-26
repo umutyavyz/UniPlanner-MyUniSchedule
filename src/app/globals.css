@@ -35,13 +35,10 @@ body {
 
 html {
   transition: background-color 0.3s ease;
+  scroll-behavior: smooth;
 }
 
-* {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
+/* Removed global transition for performance */
 
 @media print {
   @page {

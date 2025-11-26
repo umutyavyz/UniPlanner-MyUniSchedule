@@ -3,6 +3,41 @@ export const translations = {
     gpaPageTitle: 'GPA Hesaplama - Üniversite Not Ortalaması Hesaplayıcı',
     gpaPageDescription: 'Üniversite not ortalamanızı (GPA) kolayca hesaplayın. Dönem ve genel ortalama hesaplama, farklı not sistemleri (AA-FF, A-F) desteği.',
     gpaKeywords: 'gpa hesaplama, not ortalaması hesaplama, üniversite ortalama, agno hesaplama, gano hesaplama',
+    terms: {
+      title: 'Kullanım Şartları',
+      backToHome: 'Ana Sayfaya Dön',
+      intro: 'Bu web sitesine erişerek bu şartlar ve koşulları kabul ettiğinizi varsayıyoruz. Bu sayfada belirtilen tüm şartlar ve koşulları kabul etmiyorsanız UniPlanner Pro\'yu kullanmaya devam etmeyin.',
+      license: {
+        title: 'Lisans',
+        content: 'Aksi belirtilmedikçe, UniPlanner Pro ve/veya lisans verenleri, UniPlanner Pro üzerindeki tüm materyallerin fikri mülkiyet haklarına sahiptir. Tüm fikri mülkiyet hakları saklıdır. Bu şartlar ve koşullarda belirlenen kısıtlamalara tabi olarak, kendi kişisel kullanımınız için UniPlanner Pro\'dan buna erişebilirsiniz.'
+      },
+      disclaimer: {
+        title: 'Sorumluluk Reddi',
+        content1: 'UniPlanner Pro web sitesindeki materyaller \'olduğu gibi\' sağlanmaktadır. UniPlanner Pro, açık veya zımni hiçbir garanti vermez ve işbu belgeyle, satılabilirlik, belirli bir amaca uygunluk veya fikri mülkiyet haklarının ihlal edilmemesi veya diğer hak ihlalleri dahil ancak bunlarla sınırlı olmamak üzere diğer tüm garantileri reddeder ve geçersiz kılar.',
+        content2: 'Ayrıca, UniPlanner Pro, web sitesindeki materyallerin doğruluğu, olası sonuçları veya güvenilirliği ile ilgili veya bu materyallerle veya bu siteyle bağlantılı herhangi bir siteyle ilgili hiçbir garanti vermez veya beyanda bulunmaz.'
+      }
+    },
+    privacyPage: {
+      title: 'Gizlilik Politikası',
+      backToHome: 'Ana Sayfaya Dön',
+      intro: 'myunischedule.com üzerinden erişilen UniPlanner Pro\'da, ziyaretçilerimizin gizliliği ana önceliklerimizden biridir. Bu Gizlilik Politikası belgesi, UniPlanner Pro tarafından toplanan ve kaydedilen bilgi türlerini ve bunları nasıl kullandığımızı içerir.',
+      storage: {
+        title: 'Veri Depolama',
+        content: 'UniPlanner Pro, "Önce Yerel" (Local-First) prensibiyle çalışır. Ders programı verilerinizi, ders bilgilerinizi veya kişisel tercihlerinizi sunucularımızda saklamayız. Uygulama içinde oluşturulan tüm veriler, tarayıcınızın Yerel Depolama (LocalStorage) alanında yerel olarak saklanır. Bu, verilerinizin siz açıkça dışa aktarmayı veya paylaşmayı seçmediğiniz sürece cihazınızdan asla çıkmadığı anlamına gelir.'
+      },
+      collection: {
+        title: 'Bilgi Toplama',
+        content: 'İsim, e-posta adresi veya telefon numarası gibi herhangi bir kişisel tanımlayıcı bilgi (PII) toplamıyoruz. Uygulama, herhangi bir kayıt gereksinimi olmadan anonim olarak kullanılmak üzere tasarlanmıştır.'
+      },
+      thirdParty: {
+        title: 'Üçüncü Taraf Gizlilik Politikaları',
+        content: 'UniPlanner Pro\'nun Gizlilik Politikası diğer reklam verenler veya web siteleri için geçerli değildir. Bu nedenle, daha ayrıntılı bilgi için bu üçüncü taraf reklam sunucularının ilgili Gizlilik Politikalarına başvurmanızı öneririz.'
+      },
+      contact: {
+        title: 'İletişim',
+        content: 'Gizlilik Politikamız hakkında daha fazla bilgiye ihtiyacınız varsa veya sorularınız varsa, bizimle support@myunischedule.com adresinden iletişime geçmekten çekinmeyin.'
+      }
+    },
     gpaInfo: {
       faqTitle: 'Üniversite Not Ortalaması Hakkında Sıkça Sorulan Sorular',
       articles: [
@@ -55,47 +90,6 @@ export const translations = {
       a5: 'Transkript (Not Döküm Belgesi), öğrencinin üniversite eğitimi boyunca aldığı tüm dersleri, bu derslerin kredilerini, harf notlarını, dönemlik ve genel ortalamalarını resmi olarak gösteren belgedir. Staj, iş başvurusu, yüksek lisans ve yatay geçiş başvurularında en temel belgedir.',
       q6: 'Yatay geçiş için ortalama kaç olmalı?',
       a6: 'Yatay geçiş (Kurum içi veya Kurumlar arası) yapabilmek için YÖK ve üniversitelerin belirlediği taban ortalamalar vardır. Genellikle GANO\'nun en az 2.29 (4\'lük sistemde) veya 60 (100\'lük sistemde) olması istenir, ancak popüler üniversiteler ve bölümler için rekabetçi ortalamalar 3.00 ve üzeridir.'
-    },
-    scheduleInfo: {
-      title: 'Üniversite Ders Programı Hazırlama Rehberi',
-      articles: [
-        {
-          title: 'Ders Programı Nasıl Hazırlanır?',
-          content: 'Etkili bir ders programı hazırlamak için öncelikle zorunlu derslerinizi yerleştirin. Bu derslerin saatleri genellikle sabittir ve değiştirilemez. Ardından, boş kalan zaman dilimlerine ilgi alanlarınıza ve mezuniyet gereksinimlerinize uygun seçmeli dersleri ekleyin. UniPlanner Pro gibi araçlar kullanarak derslerin çakışıp çakışmadığını anında görebilirsiniz. Programınızı oluştururken sadece ders saatlerini değil, yemek, ulaşım ve ders çalışma sürelerini de hesaba katmayı unutmayın.'
-        },
-        {
-          title: 'Ders Çakışması Nedir ve Nasıl Çözülür?',
-          content: 'Ders çakışması, iki farklı dersin aynı gün ve saatte olması durumudur. Tam çakışma (saatlerin birebir aynı olması) ve kısmi çakışma (derslerin bir kısmının örtüşmesi) olarak ikiye ayrılır. Çakışma durumunda öncelik her zaman zorunlu veya alttan alınan derslere verilmelidir. Çözüm için: Dersin farklı bir şubesini (section) seçebilir, dersi bir sonraki seneye bırakabilir veya (üniversite izin veriyorsa) hocanızdan özel izin isteyebilirsiniz. UniPlanner Pro, çakışmaları görsel olarak size bildirerek bu süreci kolaylaştırır.'
-        },
-        {
-          title: 'Seçmeli Ders Seçerken Nelere Dikkat Edilmeli?',
-          content: 'Seçmeli dersler, not ortalamanızı (GANO) yükseltmek ve yeni yetkinlikler kazanmak için büyük bir fırsattır. Seçim yaparken: 1) Dersin içeriğinin ilginizi çekip çekmediğine, 2) Dersi veren hocanın notlandırma sistemine ve öğrenci yorumlarına, 3) Dersin AKTS/Kredi değerine, 4) Ders saatinin programınıza uygunluğuna dikkat edin. "Kolay ders" yerine size katkı sağlayacak dersleri seçmek uzun vadede daha faydalıdır.'
-        },
-        {
-          title: 'Üniversitede Zaman Yönetimi İpuçları',
-          content: 'Üniversite hayatı sadece derslerden ibaret değildir. Başarılı bir öğrenci olmak için ders, sosyal hayat ve dinlenme dengesini iyi kurmalısınız. Pomodoro tekniği gibi zaman yönetimi yöntemlerini kullanın. Haftalık programınızda mutlaka "ders çalışma blokları" oluşturun. Sınav haftalarında sıkışmamak için dersleri günü gününe tekrar edin. UniPlanner Pro ile oluşturduğunuz programı telefonunuza kaydederek her an planınıza sadık kalabilirsiniz.'
-        },
-        {
-          title: 'Syllabus (Ders İzlencesi) Nedir?',
-          content: 'Syllabus, bir dersin dönem boyunca işlenecek konularını, sınav tarihlerini, ödev teslimlerini, kaynak kitaplarını ve notlandırma kriterlerini içeren belgedir. Dönem başında hocalar tarafından dağıtılır veya sisteme yüklenir. Syllabus, o dersten nasıl AA alabileceğinizin haritasıdır. Sınav tarihlerini ve ödev teslimlerini UniPlanner Pro takviminize veya ajandanıza işleyerek sürprizlerden kaçınabilirsiniz.'
-        },
-        {
-          title: 'Üstten Ders Alma Mantığı',
-          content: 'Üstten ders alma, bulunduğunuz sınıfın bir üst sınıfından ders alarak kredinizi doldurma işlemidir. Genellikle GANO\'su belirli bir seviyenin (örn: 3.00) üzerinde olan öğrencilere izin verilir. Avantajları: Erken mezun olma şansı yaratır veya son sınıfta ders yükünüzü hafifleterek KPSS, ALES gibi sınavlara veya iş aramaya odaklanmanızı sağlar. Ancak ders yükünüzü çok artırıp ortalamanızı düşürmemeye dikkat etmelisiniz.'
-        },
-        {
-          title: 'Alttan Ders (FF/Tekrar) Nasıl Temizlenir?',
-          content: 'Alttan ders, önceki dönemlerde başarısız olduğunuz (FF, FD) veya almanız gerekirken almadığınız derslerdir. Bu dersleri, açıldığı ilk dönemde almak zorundasınızdır. Alttan dersler programda önceliklidir, diğer derslerle çakışsa bile alttan dersi seçmek zorundasınız (bazı üniversitelerde çakışma izni verilebilir). Alttan dersi verirken devam zorunluluğu olup olmadığını öğrenci işlerinden öğrenmelisiniz.'
-        },
-        {
-          title: 'Çift Anadal (ÇAP) ve Yandal Programları',
-          content: 'ÇAP, aynı anda iki farklı bölümden diploma almanızı sağlar. Yandal ise başka bir bölümden sertifika almanızı sağlar. Bu programlar ciddi bir ders yükü ve disiplin gerektirir. Ders programı hazırlarken iki bölümün derslerinin çakışması en büyük sorundur. UniPlanner Pro gibi araçlar, iki farklı bölümün derslerini aynı takvimde görmenizi ve çakışmaları yönetmenizi kolaylaştırır.'
-        },
-        {
-          title: 'Erasmus ve Değişim Programlarında Ders Saydırma',
-          content: 'Erasmus veya Farabi gibi programlara gidecekseniz, gideceğiniz üniversitedeki derslerin kendi üniversitenizdeki derslerle eşleşmesi (Learning Agreement) gerekir. AKTS değerlerinin ve ders içeriklerinin uyumlu olması şarttır. Dönem kaybı yaşamamak için ders seçimini bölüm koordinatörünüzle birlikte titizlikle yapmalısınız.'
-        }
-      ]
     },
     scheduleInfo: {
       title: 'Üniversite Ders Programı Hazırlama Rehberi',
@@ -246,10 +240,28 @@ export const translations = {
         title: 'Önce Gizlilik',
         desc: 'Gizli takip yok. Program verileriniz sunucularımızda değil, kendi cihazınızda saklanır.'
       },
-      impact: {
-        text: 'Bugün planlamaya ayıracağınız birkaç dakika, yarın saatlerce kafa karışıklığını önler.',
-        source: 'Zaman Yönetimi Uzmanları'
-      },
+      impactQuotes: [
+        {
+          text: 'Bugün planlamaya ayıracağınız birkaç dakika, yarın saatlerce kafa karışıklığını önler.',
+          source: 'Zaman Yönetimi Uzmanları'
+        },
+        {
+          text: 'Bir ağacı kesmek için bana altı saat verin, ilk dördünü baltayı bilemekle geçiririm.',
+          source: 'Abraham Lincoln'
+        },
+        {
+          text: 'Önemli olan programınızda yazanlara öncelik vermek değil, önceliklerinizi programlamaktır.',
+          source: 'Stephen Covey'
+        },
+        {
+          text: 'Siz gecikebilirsiniz ama zaman gecikmeyecektir.',
+          source: 'Benjamin Franklin'
+        },
+        {
+          text: 'Zaman en çok istediğimiz ama en kötü kullandığımız şeydir.',
+          source: 'William Penn'
+        }
+      ],
       howto: {
         title: 'Ders Programı Nasıl Hazırlanır?',
         step1: {
@@ -287,6 +299,11 @@ export const translations = {
       cta: {
         title: 'Haftalık planlamanızı bir üst seviyeye taşıyın',
         button: 'PROGRAMINI OLUŞTUR'
+      },
+      gpaPromo: {
+        title: 'Not Ortalamanızı Saniyeler İçinde Hesaplayın',
+        desc: 'Kullanımı kolay GPA hesaplayıcımız ile akademik başarınızı takip edin. Farklı not sistemleri ve dönem/genel ortalama desteği.',
+        button: 'GPA Hesaplayıcıyı Dene'
       }
     },
     footer: {
@@ -294,10 +311,16 @@ export const translations = {
       privacy: 'Gizlilik Politikası',
       terms: 'Kullanım Şartları',
       contact: 'İletişim',
+      about: 'Hakkımızda',
       developedBy: 'Geliştirici:',
       tools: 'Araçlar',
       scheduleMaker: 'Ders Programı Oluşturucu',
       gpaCalculator: 'Ortalama Hesaplayıcı',
+    },
+    mobileInfo: {
+      title: 'Daha İyi Bir Deneyim İçin',
+      message: 'Ders programı oluştururken en iyi deneyimi yaşamak için bilgisayar kullanmanızı öneririz.',
+      button: 'Anladım, Devam Et'
     },
     contactPage: {
       title: 'İletişim & Destek',
@@ -311,12 +334,64 @@ export const translations = {
       developer: 'Geliştirici',
       role: 'Full Stack Geliştirici',
       bio: 'Öğrenciler için faydalı araçlar geliştiriyor. Temiz kod ve kullanıcı deneyimi tutkunu.',
+    },
+    cookieConsent: {
+      title: 'Çerez Politikası 🍪',
+      message: 'Sizlere daha iyi bir deneyim sunmak ve site trafiğini analiz etmek için çerezleri kullanıyoruz.',
+      accept: 'Kabul Et',
+      decline: 'Reddet',
+      learnMore: 'Daha Fazla Bilgi',
+    },
+    aboutPage: {
+      title: 'Hakkımızda',
+      backToHome: 'Ana Sayfaya Dön',
+      missionTitle: 'Misyonumuz',
+      missionContent: 'UniPlanner Pro olarak amacımız, üniversite öğrencilerinin karmaşık akademik hayatlarını basitleştirmektir. Ders programı hazırlama ve not ortalaması hesaplama gibi stresli süreçleri, kullanıcı dostu ve modern araçlarla saniyeler süren keyifli bir deneyime dönüştürüyoruz.',
+      visionTitle: 'Vizyonumuz',
+      visionContent: 'Dünya genelindeki tüm öğrencilerin akademik planlamalarını dijitalleştiren, kağıt israfını önleyen ve zaman yönetimini öğreten lider platform olmak.',
+      whyUsTitle: 'Neden Biz?',
+      whyUsContent: 'Rakiplerimizin aksine, verilerinizi sunucularımızda saklamıyoruz. "Önce Gizlilik" prensibiyle çalışıyor, tamamen ücretsiz ve kullanıcı dostu bir arayüz sunuyoruz.',
     }
   },
   en: {
     gpaPageTitle: 'GPA Calculator - University Grade Point Average',
     gpaPageDescription: 'Calculate your university GPA easily. Term and cumulative GPA calculation, support for different grading systems (AA-FF, A-F).',
-    gpaKeywords: 'gpa calculator, grade point average, university gpa, cgpa calculator',
+    gpaKeywords: 'gpa calculator, grade point average, university gpa, cumulative gpa, semester gpa',
+    terms: {
+      title: 'Terms of Service',
+      backToHome: 'Back to Home',
+      intro: 'By accessing this website we assume you accept these terms and conditions. Do not continue to use UniPlanner Pro if you do not agree to take all of the terms and conditions stated on this page.',
+      license: {
+        title: 'License',
+        content: 'Unless otherwise stated, UniPlanner Pro and/or its licensors own the intellectual property rights for all material on UniPlanner Pro. All intellectual property rights are reserved. You may access this from UniPlanner Pro for your own personal use subjected to restrictions set in these terms and conditions.'
+      },
+      disclaimer: {
+        title: 'Disclaimer',
+        content1: 'The materials on UniPlanner Pro\'s website are provided on an \'as is\' basis. UniPlanner Pro makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
+        content2: 'Further, UniPlanner Pro does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.'
+      }
+    },
+    privacyPage: {
+      title: 'Privacy Policy',
+      backToHome: 'Back to Home',
+      intro: 'At UniPlanner Pro, accessible from myunischedule.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by UniPlanner Pro and how we use it.',
+      storage: {
+        title: 'Data Storage',
+        content: 'UniPlanner Pro operates on a "Local-First" principle. We do not store your schedule data, course information, or personal preferences on our servers. All data generated within the application is stored locally in your browser\'s LocalStorage. This means your data never leaves your device unless you explicitly choose to export or share it.'
+      },
+      collection: {
+        title: 'Information Collection',
+        content: 'We do not collect any personal identification information (PII) such as names, email addresses, or phone numbers. The application is designed to be used anonymously without any registration requirement.'
+      },
+      thirdParty: {
+        title: 'Third Party Privacy Policies',
+        content: 'UniPlanner Pro\'s Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information.'
+      },
+      contact: {
+        title: 'Contact Us',
+        content: 'If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at support@myunischedule.com.'
+      }
+    },
     gpaInfo: {
       faqTitle: 'Frequently Asked Questions About GPA Calculation',
       articles: [
@@ -519,10 +594,28 @@ export const translations = {
         title: 'Privacy First Approach',
         desc: 'No hidden tracking. Your schedule data lives on your device, not on our servers.'
       },
-      impact: {
-        text: 'A few minutes of planning today saves hours of confusion tomorrow.',
-        source: 'Productivity Experts'
-      },
+      impactQuotes: [
+        {
+          text: 'A few minutes of planning today saves hours of confusion tomorrow.',
+          source: 'Productivity Experts'
+        },
+        {
+          text: 'Give me six hours to chop down a tree and I will spend the first four sharpening the axe.',
+          source: 'Abraham Lincoln'
+        },
+        {
+          text: 'The key is not to prioritize what\'s on your schedule, but to schedule your priorities.',
+          source: 'Stephen Covey'
+        },
+        {
+          text: 'You may delay, but time will not.',
+          source: 'Benjamin Franklin'
+        },
+        {
+          text: 'Time is what we want most, but what we use worst.',
+          source: 'William Penn'
+        }
+      ],
       howto: {
         title: 'How to make a schedule',
         step1: {
@@ -560,6 +653,11 @@ export const translations = {
       cta: {
         title: 'Ready to master your weekly planning?',
         button: 'BUILD YOUR SCHEDULE'
+      },
+      gpaPromo: {
+        title: 'Calculate Your GPA in Seconds',
+        desc: 'Track your academic success with our easy-to-use GPA calculator. Support for various grading systems and term/cumulative GPA.',
+        button: 'Try GPA Calculator'
       }
     },
     footer: {
@@ -567,10 +665,16 @@ export const translations = {
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
       contact: 'Contact',
+      about: 'About Us',
       developedBy: 'Developed by:',
       tools: 'Tools',
       scheduleMaker: 'Schedule Maker',
       gpaCalculator: 'GPA Calculator',
+    },
+    mobileInfo: {
+      title: 'For a Better Experience',
+      message: 'We recommend using a computer for the best experience when creating your schedule.',
+      button: 'Got it, Continue'
     },
     contactPage: {
       title: 'Contact & Support',
@@ -584,6 +688,23 @@ export const translations = {
       developer: 'Developer',
       role: 'Full Stack Developer',
       bio: 'Building useful tools for students. Passionate about clean code and user experience.',
+    },
+    cookieConsent: {
+      title: 'Cookie Policy 🍪',
+      message: 'We use cookies to provide you with a better experience and analyze site traffic.',
+      accept: 'Accept',
+      decline: 'Decline',
+      learnMore: 'Learn More',
+    },
+    aboutPage: {
+      title: 'About Us',
+      backToHome: 'Back to Home',
+      missionTitle: 'Our Mission',
+      missionContent: 'At UniPlanner Pro, our goal is to simplify the complex academic lives of university students. We transform stressful processes like schedule making and GPA calculation into a delightful experience that takes seconds, using user-friendly and modern tools.',
+      visionTitle: 'Our Vision',
+      visionContent: 'To be the leading platform that digitizes academic planning for students worldwide, prevents paper waste, and teaches time management.',
+      whyUsTitle: 'Why Us?',
+      whyUsContent: 'Unlike our competitors, we do not store your data on our servers. We operate on a "Privacy First" principle, offering a completely free and user-friendly interface.',
     }
   }
 };

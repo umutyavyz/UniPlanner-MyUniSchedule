@@ -8,11 +8,12 @@ import { translations } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar';
 import Calendar from '@/components/Calendar';
 import SettingsModal from '@/components/SettingsModal';
-import { GraduationCap, Printer, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileJson, Upload, Share2, Calculator } from 'lucide-react';
+import { GraduationCap, Printer, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, FileJson, Upload, Share2, Calculator } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import LandingPage from '@/components/LandingPage';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 import DownloadOverlay, { ExportStatus } from '@/components/DownloadOverlay';
+import MobileInfoDialog from '@/components/MobileInfoDialog';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
@@ -23,7 +24,6 @@ export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -474,18 +474,12 @@ export default function Home() {
       {/* Top Navigation Bar - Glassmorphism Style */}
       <header className="h-16 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-50 transition-all bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 supports-backdrop-filter:bg-white/60">
         <div className="flex items-center gap-3">
-          <button 
-            onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
-          >
-            <Menu size={24} />
-          </button>
-          <div className="bg-linear-to-tr from-blue-600 to-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20 hidden sm:block transform hover:scale-105 transition-transform duration-300">
+          <div className="bg-linear-to-tr from-blue-600 to-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-transform duration-300">
             <GraduationCap size={22} />
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">UniPlanner <span className="text-blue-600 dark:text-blue-400">Pro</span></h1>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 hidden sm:block opacity-80">{t.semesterPlanner}</p>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5 opacity-80">{t.semesterPlanner}</p>
           </div>
         </div>
 
@@ -556,7 +550,7 @@ export default function Home() {
       </header>
 
       {/* Main App Content */}
-      <div ref={appRef} className="flex flex-col lg:flex-row h-[calc(100vh-64px)] relative overflow-hidden bg-gray-50/50 dark:bg-gray-950 lg:p-6 lg:gap-6">
+      <div ref={appRef} className="flex flex-col lg:flex-row min-h-[calc(100vh-64px)] lg:h-[calc(100vh-64px)] relative lg:overflow-hidden bg-gray-50/50 dark:bg-gray-950 lg:p-6 lg:gap-6">
         <Sidebar 
           courses={allCourses}
           onAddCourse={handleAddCourse} 
@@ -566,10 +560,8 @@ export default function Home() {
           onDeleteCourse={handleDeleteCourse}
           addedCourseIds={selectedCourses.map(c => c.id)} 
           settings={settings}
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
         />
-        <div id="calendar-container" className="flex-1 h-full overflow-hidden flex flex-col bg-white dark:bg-gray-900 lg:rounded-2xl lg:border lg:border-gray-200/60 lg:dark:border-gray-800 lg:shadow-xl lg:shadow-gray-200/50 lg:dark:shadow-none transition-all">
+        <div id="calendar-container" className="flex-1 h-auto lg:h-full overflow-hidden flex flex-col bg-white dark:bg-gray-900 lg:rounded-2xl lg:border lg:border-gray-200/60 lg:dark:border-gray-800 lg:shadow-xl lg:shadow-gray-200/50 lg:dark:shadow-none transition-all order-1 lg:order-2">
           {/* Toolbar */}
           <div className="export-exclude flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shrink-0">
             {/* Stats */}
@@ -728,6 +720,8 @@ export default function Home() {
           error: t.downloadError
         }}
       />
+
+      <MobileInfoDialog settings={settings} />
 
       {/* Error Toast */}
       {error && (

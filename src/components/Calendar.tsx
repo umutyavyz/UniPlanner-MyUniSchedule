@@ -136,7 +136,7 @@ export default function Calendar({ courses, settings }: CalendarProps) {
             {timeSlots.map((slot, i) => (
               <div 
                 key={i} 
-                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800' : 'border-gray-50/50 dark:border-gray-800/30 border-dashed'}`}
+                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800' : 'border-gray-50 dark:border-gray-800/30 border-dashed'}`}
                 style={{ 
                   top: `${(i * settings.timeIncrement / 60) * hourHeight}px`
                 }}
@@ -153,36 +153,28 @@ export default function Calendar({ courses, settings }: CalendarProps) {
                   return (
                     <div
                       key={`${course.id}-${i}`}
-                      className="absolute left-1 right-1 rounded-xl p-2.5 text-sm overflow-hidden shadow-sm hover:shadow-md border-l-4 transition-all cursor-pointer z-10 animate-fade-in hover:z-20 group/card"
+                      className="absolute left-1 right-1 rounded-lg p-2 text-sm overflow-hidden shadow-sm hover:shadow-md border-l-4 transition-all cursor-pointer z-10 animate-fade-in hover:z-20 group/card backdrop-blur-[2px] text-gray-900 dark:text-gray-100"
                       style={{ 
                         top: style.top, 
                         height: style.height,
-                        backgroundColor: `${color}10`, // Very light background
+                        backgroundColor: `${color}20`, // Slightly more visible
                         borderLeftColor: color,
-                        borderTopColor: `${color}20`,
-                        borderRightColor: `${color}20`,
-                        borderBottomColor: `${color}20`,
-                        borderWidth: '1px 1px 1px 4px',
-                        color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#1f2937'
+                        borderTopColor: `${color}30`,
+                        borderRightColor: `${color}30`,
+                        borderBottomColor: `${color}30`,
+                        borderWidth: '1px 1px 1px 4px'
                       }}
                     >
-                      <div className="font-bold text-sm leading-tight mb-0.5 flex items-center gap-1.5 flex-wrap" style={{ color: color }}>
+                      <div className="font-bold text-xs sm:text-sm leading-tight mb-0.5 flex items-center gap-1.5 flex-wrap" style={{ color: color }}>
                         {course.code}
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                          course.type === 'Zorunlu' 
-                            ? 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400' 
-                            : 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                        }`}>
-                          {course.type === 'Zorunlu' ? t.compulsory : t.elective}
-                        </span>
                       </div>
-                      <div className="truncate font-semibold text-xs sm:text-sm text-gray-900 dark:text-gray-100 leading-tight">{course.name}</div>
-                      <div className="truncate text-xs text-gray-600 dark:text-gray-400 mt-0.5 font-medium">{course.instructor}</div>
-                      {course.classroom && <div className="truncate text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
+                      <div className="truncate font-semibold text-xs text-gray-900 dark:text-gray-100 leading-tight">{course.name}</div>
+                      <div className="truncate text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 mt-0.5 font-medium">{course.instructor}</div>
+                      {course.classroom && <div className="truncate text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
                         <span className="w-1 h-1 rounded-full bg-gray-400 inline-block"></span>
                         {course.classroom}
                       </div>}
-                      <div className="absolute bottom-1.5 right-1.5 text-[10px] font-bold bg-white/90 dark:bg-gray-900/90 px-1.5 py-0.5 rounded-md text-gray-700 dark:text-gray-300 backdrop-blur-sm shadow-sm border border-gray-100 dark:border-gray-700/50">
+                      <div className="absolute bottom-1 right-1 text-[9px] font-bold bg-white/80 dark:bg-gray-950/80 px-1.5 py-0.5 rounded text-gray-600 dark:text-gray-400 backdrop-blur-md shadow-sm border border-gray-100 dark:border-gray-800">
                         {s.startTime} - {s.endTime}
                       </div>
                     </div>

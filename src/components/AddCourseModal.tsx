@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Plus, Trash2, Check } from 'lucide-react';
 import { Course, CourseType } from '@/types';
 import { Settings } from '@/types/settings';
 import { translations } from '@/lib/i18n';
@@ -254,13 +254,13 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
                     key={c}
                     type="button"
                     onClick={() => setColor(c)}
-                    className={`w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center ${color === c ? 'scale-110 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 ring-gray-400 dark:ring-gray-500 shadow-md' : 'hover:scale-110 hover:shadow-sm'}`}
-                    style={{ backgroundColor: c }}
+                    className={`w-9 h-9 rounded-full transition-all duration-200 flex items-center justify-center ${color === c ? 'scale-110 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-md' : 'hover:scale-110 hover:shadow-sm opacity-80 hover:opacity-100'}`}
+                    style={{ backgroundColor: c, '--tw-ring-color': c } as React.CSSProperties}
                     aria-label={`${t.color} ${idx + 1}`}
                     role="radio"
                     aria-checked={color === c}
                   >
-                    {color === c && <div className="w-2.5 h-2.5 bg-white rounded-full shadow-sm" />}
+                    {color === c && <Check size={16} className="text-white drop-shadow-md" strokeWidth={3} />}
                   </button>
                 ))}
               </div>

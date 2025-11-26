@@ -34,8 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
     : 'UniPlanner Pro | Schedule Maker'; // Yurtdışı için sadece İngilizce kısım
 
   const description = isTR
-    ? 'Üniversite ders programınızı kolayca hazırlayın, çakışmaları görün ve PDF olarak indirin.'
-    : 'Free university schedule maker. Create your weekly timetable and download as PDF.';
+    ? 'Ücretsiz üniversite ders programı oluşturucu. Derslerinizi planlayın, çakışmaları önleyin ve programınızı PDF olarak indirin.'
+    : 'Free university schedule maker. Build your college timetable, avoid course conflicts, and export to PDF/Image.';
 
   return {
     metadataBase: new URL('https://www.myunischedule.com'),
@@ -47,7 +47,9 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       'university schedule maker', 'timetable planner', 'college schedule', 'weekly planner',
       'ders programı hazırlama', 'üniversite ders programı', 'ders programı robotu', 'haftalık program', 'uniplanner',
-      'üniversite ders programı çakışma önleyici', 'ders programı çakışma kontrolü', 'course conflict checker', 'schedule conflict preventer'
+      'üniversite ders programı çakışma önleyici', 'ders programı çakışma kontrolü', 'course conflict checker', 'schedule conflict preventer',
+      'free schedule maker', 'college timetable generator', 'university planner', 'student planner', 
+      'ders programı oluşturucu', 'ücretsiz ders programı', 'üniversite planlayıcı', 'gpa calculator', 'not ortalaması hesaplama'
     ],
     authors: [{ name: 'Umut Yavuz' }],
     creator: 'Umut Yavuz',
