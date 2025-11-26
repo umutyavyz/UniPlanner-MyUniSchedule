@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Course, ScheduledCourse } from '@/types';
 import { Settings, defaultSettings } from '@/types/settings';
 import { translations } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar';
 import Calendar from '@/components/Calendar';
 import SettingsModal from '@/components/SettingsModal';
-import { GraduationCap, Printer, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileJson, Upload, Share2 } from 'lucide-react';
+import { GraduationCap, Printer, ImageDown, CalendarPlus, Settings as SettingsIcon, Globe, Download, ChevronDown, Menu, FileJson, Upload, Share2, Calculator } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import LandingPage from '@/components/LandingPage';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
@@ -229,7 +230,7 @@ export default function Home() {
         height: fullHeight,
         backgroundColor: document.documentElement.classList.contains('dark') ? '#030712' : '#ffffff',
         filter: (node) => {
-          return !node.classList?.contains('print:hidden');
+          return !node.classList?.contains('print:hidden') && !node.classList?.contains('export-exclude');
         },
         style: {
           height: `${fullHeight}px`,
@@ -412,7 +413,7 @@ export default function Home() {
         height: fullHeight,
         backgroundColor: document.documentElement.classList.contains('dark') ? '#030712' : '#ffffff',
         filter: (node) => {
-          return !node.classList?.contains('print:hidden');
+          return !node.classList?.contains('print:hidden') && !node.classList?.contains('export-exclude');
         },
         style: {
           height: `${fullHeight}px`,
@@ -489,18 +490,15 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
-          <div className="hidden md:flex items-center bg-gray-100/50 dark:bg-gray-800/50 rounded-2xl px-1 py-1 border border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex flex-col items-center px-4 py-1 border-r border-gray-200 dark:border-gray-700">
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t.totalCourse}</span>
-              <span className="text-lg font-bold text-gray-900 dark:text-white leading-none mt-0.5">{selectedCourses.length}</span>
-            </div>
-            <div className="flex flex-col items-center px-4 py-1">
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t.totalCredit}</span>
-              <span className="text-lg font-bold text-gray-900 dark:text-white leading-none mt-0.5">{totalCredits}</span>
-            </div>
-          </div>
+          <div className="flex items-center gap-2">
+            <Link 
+              href="/gpa-calculator"
+              className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-colors"
+            >
+              <Calculator size={18} />
+              <span>{t.gpaCalculator}</span>
+            </Link>
 
-                    <div className="flex items-center gap-2">
             <ModeToggle />
 
             {/* Language Dropdown */}
@@ -552,107 +550,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* Export Dropdown */}
-            <div className="relative">
-              <button 
-                onClick={() => {
-                  setIsExportOpen(!isExportOpen);
-                  setIsLanguageOpen(false);
-                }}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1"
-                title="Export"
-              >
-                <Download size={20} />
-                <ChevronDown size={14} className={`transition-transform ${isExportOpen ? 'rotate-180' : ''}`} />
-              </button>
 
-              {isExportOpen && (
-                <>
-                  <div className="fixed inset-0 z-30" onClick={() => setIsExportOpen(false)}></div>
-                  <div className="absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 p-1 z-40 animate-fade-in max-h-[80vh] overflow-y-auto">
-                    <button 
-                      onClick={() => {
-                        handleDownloadImage();
-                        setIsExportOpen(false);
-                      }}
-                      disabled={exportStatus !== 'idle'}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <ImageDown size={16} />
-                      {t.downloadImage}
-                    </button>
-                    <button 
-                      onClick={() => {
-                        handleDownloadPDF();
-                        setIsExportOpen(false);
-                      }}
-                      disabled={exportStatus !== 'idle'}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <Printer size={16} />
-                      {t.print}
-                    </button>
-                    <button 
-                      onClick={() => {
-                        handleAddToCalendar();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <CalendarPlus size={16} />
-                      {t.addToCalendar}
-                    </button>
-                    <button 
-                      onClick={() => {
-                        handleShareURL();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <Share2 size={16} />
-                      {t.shareURL}
-                    </button>
-                    <div className="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
-                    <button 
-                      onClick={() => {
-                        handleBackup();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <FileJson size={16} />
-                      {t.backup}
-                    </button>
-                    <button 
-                      onClick={() => {
-                        fileInputRef.current?.click();
-                        setIsExportOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <Upload size={16} />
-                      {t.restore}
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-            
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleRestore} 
-              className="hidden" 
-              accept=".json"
-            />
-            
-            <button 
-              onClick={() => setIsSettingsOpen(true)}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              title={t.settings}
-            >
-              <SettingsIcon size={20} />
-            </button>
           </div>
         </div>
       </header>
@@ -672,6 +570,129 @@ export default function Home() {
           onClose={() => setIsSidebarOpen(false)}
         />
         <div id="calendar-container" className="flex-1 h-full overflow-hidden flex flex-col bg-white dark:bg-gray-900 lg:rounded-2xl lg:border lg:border-gray-200/60 lg:dark:border-gray-800 lg:shadow-xl lg:shadow-gray-200/50 lg:dark:shadow-none transition-all">
+          {/* Toolbar */}
+          <div className="export-exclude flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shrink-0">
+            {/* Stats */}
+            <div className="flex items-center gap-4">
+               <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t.totalCourse}:</span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{selectedCourses.length}</span>
+               </div>
+               <div className="w-px h-4 bg-gray-200 dark:bg-gray-700"></div>
+               <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t.totalCredit}:</span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">{totalCredits}</span>
+               </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2">
+               {/* Settings */}
+               <button 
+                  onClick={() => setIsSettingsOpen(true)}
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-2"
+                  title={t.settings}
+                >
+                  <SettingsIcon size={18} />
+                  <span className="text-sm font-medium hidden sm:inline">{t.settings}</span>
+                </button>
+
+               {/* Export */}
+               <div className="relative">
+                  <button 
+                    onClick={() => {
+                      setIsExportOpen(!isExportOpen);
+                      setIsLanguageOpen(false);
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm shadow-blue-500/20"
+                    title="Export"
+                  >
+                    <Download size={16} />
+                    <span className="text-sm font-medium hidden sm:inline">{t.download}</span>
+                    <ChevronDown size={14} className={`transition-transform ${isExportOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isExportOpen && (
+                    <>
+                      <div className="fixed inset-0 z-30" onClick={() => setIsExportOpen(false)}></div>
+                      <div className="absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 p-1 z-40 animate-fade-in max-h-[80vh] overflow-y-auto">
+                        <button 
+                          onClick={() => {
+                            handleDownloadPDF();
+                            setIsExportOpen(false);
+                          }}
+                          disabled={exportStatus !== 'idle'}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Printer size={16} />
+                          {t.print}
+                        </button>
+                        <button 
+                          onClick={() => {
+                            handleDownloadImage();
+                            setIsExportOpen(false);
+                          }}
+                          disabled={exportStatus !== 'idle'}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ImageDown size={16} />
+                          {t.downloadImage}
+                        </button>
+                        <button 
+                          onClick={() => {
+                            handleAddToCalendar();
+                            setIsExportOpen(false);
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <CalendarPlus size={16} />
+                          {t.addToCalendar}
+                        </button>
+                        <button 
+                          onClick={() => {
+                            handleShareURL();
+                            setIsExportOpen(false);
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <Share2 size={16} />
+                          {t.shareURL}
+                        </button>
+                        <div className="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
+                        <button 
+                          onClick={() => {
+                            handleBackup();
+                            setIsExportOpen(false);
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <FileJson size={16} />
+                          {t.backup}
+                        </button>
+                        <button 
+                          onClick={() => {
+                            fileInputRef.current?.click();
+                            setIsExportOpen(false);
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <Upload size={16} />
+                          {t.restore}
+                        </button>
+                      </div>
+                    </>
+                  )}
+               </div>
+               
+               <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleRestore} 
+                  className="hidden" 
+                  accept=".json"
+                />
+            </div>
+          </div>
           <Calendar courses={selectedCourses} settings={settings} />
         </div>
       </div>

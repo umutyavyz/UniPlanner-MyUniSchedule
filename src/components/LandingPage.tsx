@@ -205,16 +205,6 @@ export default function LandingPage({ settings, onStart }: LandingPageProps) {
             </p>
         </div>
       </section>
-
-      {/* Simple Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-4 text-center text-sm">
-        <div className="flex justify-center gap-6 mb-8">
-            <Link href="/contact" className="hover:text-white transition-colors">Contacts</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-        </div>
-        <p>© 2025 UniPlanner Pro. All rights reserved.</p>
-      </footer>
     </div>
   );
 }

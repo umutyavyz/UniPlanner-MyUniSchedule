@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import CookieConsent from "@/components/CookieConsent";
+import ClientFooter from "@/components/ClientFooter";
 import { headers } from "next/headers"; // Header erişimi için eklendi
 
 const geistSans = Geist({
@@ -153,7 +154,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <main className="flex-1 flex flex-col">
+              {children}
+            </main>
+            <ClientFooter />
+          </div>
           <CookieConsent />
         </ThemeProvider>
       </body>

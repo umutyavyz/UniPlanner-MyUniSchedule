@@ -1,5 +1,123 @@
 export const translations = {
   tr: {
+    gpaPageTitle: 'GPA Hesaplama - Üniversite Not Ortalaması Hesaplayıcı',
+    gpaPageDescription: 'Üniversite not ortalamanızı (GPA) kolayca hesaplayın. Dönem ve genel ortalama hesaplama, farklı not sistemleri (AA-FF, A-F) desteği.',
+    gpaKeywords: 'gpa hesaplama, not ortalaması hesaplama, üniversite ortalama, agno hesaplama, gano hesaplama',
+    gpaInfo: {
+      faqTitle: 'Üniversite Not Ortalaması Hakkında Sıkça Sorulan Sorular',
+      articles: [
+        {
+          title: 'Üniversite Not Ortalaması (GPA) Nasıl Hesaplanır?',
+          content: 'Üniversite not ortalaması hesaplanırken temel matematiksel formül şöyledir: Her dersin başarı notu katsayısı (örneğin AA için 4.00, BA için 3.50) ile o dersin kredi değeri (AKTS veya Ulusal Kredi) çarpılır. Bu işlem dönemdeki tüm dersler için tek tek yapılır. Elde edilen çarpım sonuçları toplanır (Ağırlıklı Puan Toplamı). Son olarak, bu toplam değer, o dönem alınan toplam kredi sayısına bölünür. Çıkan sonuç virgülden sonra iki hane olacak şekilde yuvarlanır (Örn: 3.45). Bu hesaplama hem dönemlik (YANO) hem de genel (GANO) ortalama için aynı mantıkla, sadece kapsadığı dersler değiştirilerek yapılır.'
+        },
+        {
+          title: 'AGNO Nedir? (Ağırlıklı Genel Not Ortalaması)',
+          content: 'AGNO, "Ağırlıklı Genel Not Ortalaması"nın kısaltmasıdır. Öğrencinin üniversiteye başladığı ilk günden itibaren, hesaplamanın yapıldığı ana kadar aldığı tüm derslerin (başarılı veya başarısız) kredileriyle ağırlıklandırılmış ortalamasını ifade eder. AGNO, mezuniyet puanınızı belirleyen en önemli kriterdir. Diplomanızda yazacak olan not, son döneminiz bittiğinde oluşan AGNO değeridir. Bazı üniversitelerde bu terim yerine GANO veya kümülatif ortalama (CGPA) da kullanılır.'
+        },
+        {
+          title: 'GANO Nedir? (Genel Akademik Not Ortalaması)',
+          content: 'GANO, "Genel Akademik Not Ortalaması" anlamına gelir ve AGNO ile tamamen aynı kavramı ifade eder. Üniversitelerin terminoloji tercihlerine göre isim değişebilir. GANO, öğrencinin akademik başarısının en net göstergesidir. Yüksek lisans başvurularında, iş başvurularında, yatay geçiş işlemlerinde ve burs değerlendirmelerinde temel alınan puan türü GANO\'dur. 4.00 üzerinden hesaplanır.'
+        },
+        {
+          title: 'YANO Nedir? (Yarıyıl Ağırlıklı Not Ortalaması)',
+          content: 'YANO, sadece ilgili yarıyılda (dönemde) alınan derslerin ortalamasını ifade eder. O dönemdeki akademik performansınızı ölçer. Eğer bir dönemde YANO\'nuz 2.00\'ın altındaysa, o dönem "Sınamalı" veya "Başarısız" sayılabilirsiniz (üniversite yönetmeliğine göre değişir). YANO hesaplanırken geçmiş dönem dersleri hesaba katılmaz, sadece o dönem kayıt olunan dersler dikkate alınır.'
+        },
+        {
+          title: 'AGNO ve GANO Hesaplama Mantığı',
+          content: 'AGNO ve GANO hesaplamasında, öğrencinin transkriptindeki tüm dersler havuza dahil edilir. Tekrarlanan derslerde genellikle en son alınan not geçerlidir (bazı üniversitelerde en yüksek not). Hesaplama yapılırken: (Ders 1 Kredi x Not 1) + (Ders 2 Kredi x Not 2) + ... + (Ders N Kredi x Not N) / Toplam Kredi formülü uygulanır. Bu kümülatif bir işlemdir, yani 1. sınıftan 4. sınıfa kadar her yeni dönem, bu büyük havuza yeni veriler ekler.'
+        },
+        {
+          title: 'Harf Notları ve 4\'lük Sistem Karşılıkları',
+          content: 'Türkiye\'deki üniversitelerin çoğunda 4\'lük sistem veya harf notu sistemi kullanılır. Yaygın karşılıklar şöyledir: AA (4.00 - Mükemmel), BA (3.50 - Çok İyi), BB (3.00 - İyi), CB (2.50 - Orta-İyi), CC (2.00 - Orta/Geçer), DC (1.50 - Koşullu Geçer), DD (1.00 - Koşullu Geçer), FD (0.50 - Başarısız), FF (0.00 - Başarısız). DC ve DD notları, genel ortalamanız (GANO) 2.00 veya üzerindeyse genellikle "Geçti" sayılır, ancak ortalamanız düşükse bu dersleri tekrar almanız gerekebilir.'
+        },
+        {
+          title: 'Kredi ve AKTS (ECTS) Farkı Nedir?',
+          content: 'Üniversitelerde iki tür kredi sistemi vardır: Ulusal Kredi ve AKTS (Avrupa Kredi Transfer Sistemi). Ulusal kredi genellikle dersin haftalık teorik ve uygulama saatine dayanır. AKTS ise o dersin öğrenci üzerindeki iş yükünü (ders çalışma, ödev, proje vb.) temsil eder. Erasmus gibi değişim programlarında AKTS esastır. Not ortalaması hesaplanırken üniversitenizin yönetmeliğine göre ya Ulusal Kredi ya da AKTS ağırlık olarak kullanılır. UniPlanner Pro hesaplayıcısında her iki değeri de "Kredi" hanesine girerek hesaplama yapabilirsiniz.'
+        },
+        {
+          title: 'Mezuniyet İçin Ortalama Kaç Olmalı?',
+          content: 'Lisans ve önlisans programlarından mezun olabilmek için genellikle GANO\'nun en az 2.00 olması gerekir. 2.00\'ın altındaki öğrenciler mezun olamaz ve ortalamalarını yükseltmek için ders tekrarı yapmak zorunda kalırlar. Ayrıca GANO\'su 3.00-3.49 arasında olanlar "Onur Öğrencisi", 3.50-4.00 arasında olanlar "Yüksek Onur Öğrencisi" olarak mezun olurlar.'
+        },
+        {
+          title: 'Ortalama Nasıl Yükseltilir?',
+          content: 'Ortalamayı yükseltmenin en etkili yolu, kredi değeri yüksek olan derslerden yüksek harf notu almaktır. Ayrıca, daha önce düşük not (CC, DC, DD, FF) alınan dersleri tekrar alarak notu yükseltmek GANO\'yu ciddi oranda artırır. Yaz okulu, not yükseltmek için büyük bir fırsattır. Seçmeli derslerde ilgi alanınıza uygun ve yüksek not alabileceğiniz dersleri tercih etmek de stratejik bir yöntemdir.'
+        }
+      ],
+      q1: 'Çan eğrisi sistemi nedir?',
+      a1: 'Çan eğrisi (Bağıl Değerlendirme Sistemi), sınıfın genel başarısına göre notların belirlendiği bir sistemdir. Sınıf ortalaması düşükse, düşük puanlarla yüksek harf notları (AA, BB) alınabilir. Tam tersi durumda, sınıf ortalaması çok yüksekse, yüksek puanla bile düşük harf notu gelebilir. Bu sistemde geçme notu sabit değildir, sınıfın performansına göre her sınavda değişir.',
+      q2: 'FF alınan ders ortalamayı nasıl etkiler?',
+      a2: 'FF notunun katsayısı 0.00\'dır. Bu, o dersin kredisinin toplam krediye eklendiği ancak puan havuzuna "0" puan katkı yaptığı anlamına gelir. Bu durum ortalamayı (GANO/YANO) ciddi şekilde düşürür. FF alınan dersin mutlaka tekrar alınması ve geçilmesi gerekir.',
+      q3: 'DC ve DD ile geçilir mi?',
+      a3: 'DC ve DD notları "Koşullu Geçer" notlardır. Eğer dönem sonu veya genel ortalamanız (üniversite yönetmeliğine göre değişir, genelde 2.00 barajı vardır) tutuyorsa bu derslerden geçmiş sayılırsınız. Ancak ortalamanız tutmuyorsa bu dersleri tekrar almanız gerekir.',
+      q4: 'Yaz okulu ortalamayı etkiler mi?',
+      a4: 'Evet, yaz okulunda alınan dersler ve notlar transkripte işlenir ve GANO hesaplamasına dahil edilir. Yaz okulu, özellikle kalınan dersleri vermek veya düşük notlu dersleri yükseltmek için kullanıldığında ortalamayı yukarı çekmek için etkili bir yöntemdir.',
+      q5: 'Transkript nedir ve ne işe yarar?',
+      a5: 'Transkript (Not Döküm Belgesi), öğrencinin üniversite eğitimi boyunca aldığı tüm dersleri, bu derslerin kredilerini, harf notlarını, dönemlik ve genel ortalamalarını resmi olarak gösteren belgedir. Staj, iş başvurusu, yüksek lisans ve yatay geçiş başvurularında en temel belgedir.',
+      q6: 'Yatay geçiş için ortalama kaç olmalı?',
+      a6: 'Yatay geçiş (Kurum içi veya Kurumlar arası) yapabilmek için YÖK ve üniversitelerin belirlediği taban ortalamalar vardır. Genellikle GANO\'nun en az 2.29 (4\'lük sistemde) veya 60 (100\'lük sistemde) olması istenir, ancak popüler üniversiteler ve bölümler için rekabetçi ortalamalar 3.00 ve üzeridir.'
+    },
+    scheduleInfo: {
+      title: 'Üniversite Ders Programı Hazırlama Rehberi',
+      articles: [
+        {
+          title: 'Ders Programı Nasıl Hazırlanır?',
+          content: 'Etkili bir ders programı hazırlamak için öncelikle zorunlu derslerinizi yerleştirin. Bu derslerin saatleri genellikle sabittir ve değiştirilemez. Ardından, boş kalan zaman dilimlerine ilgi alanlarınıza ve mezuniyet gereksinimlerinize uygun seçmeli dersleri ekleyin. UniPlanner Pro gibi araçlar kullanarak derslerin çakışıp çakışmadığını anında görebilirsiniz. Programınızı oluştururken sadece ders saatlerini değil, yemek, ulaşım ve ders çalışma sürelerini de hesaba katmayı unutmayın.'
+        },
+        {
+          title: 'Ders Çakışması Nedir ve Nasıl Çözülür?',
+          content: 'Ders çakışması, iki farklı dersin aynı gün ve saatte olması durumudur. Tam çakışma (saatlerin birebir aynı olması) ve kısmi çakışma (derslerin bir kısmının örtüşmesi) olarak ikiye ayrılır. Çakışma durumunda öncelik her zaman zorunlu veya alttan alınan derslere verilmelidir. Çözüm için: Dersin farklı bir şubesini (section) seçebilir, dersi bir sonraki seneye bırakabilir veya (üniversite izin veriyorsa) hocanızdan özel izin isteyebilirsiniz. UniPlanner Pro, çakışmaları görsel olarak size bildirerek bu süreci kolaylaştırır.'
+        },
+        {
+          title: 'Seçmeli Ders Seçerken Nelere Dikkat Edilmeli?',
+          content: 'Seçmeli dersler, not ortalamanızı (GANO) yükseltmek ve yeni yetkinlikler kazanmak için büyük bir fırsattır. Seçim yaparken: 1) Dersin içeriğinin ilginizi çekip çekmediğine, 2) Dersi veren hocanın notlandırma sistemine ve öğrenci yorumlarına, 3) Dersin AKTS/Kredi değerine, 4) Ders saatinin programınıza uygunluğuna dikkat edin. "Kolay ders" yerine size katkı sağlayacak dersleri seçmek uzun vadede daha faydalıdır.'
+        },
+        {
+          title: 'Üniversitede Zaman Yönetimi İpuçları',
+          content: 'Üniversite hayatı sadece derslerden ibaret değildir. Başarılı bir öğrenci olmak için ders, sosyal hayat ve dinlenme dengesini iyi kurmalısınız. Pomodoro tekniği gibi zaman yönetimi yöntemlerini kullanın. Haftalık programınızda mutlaka "ders çalışma blokları" oluşturun. Sınav haftalarında sıkışmamak için dersleri günü gününe tekrar edin. UniPlanner Pro ile oluşturduğunuz programı telefonunuza kaydederek her an planınıza sadık kalabilirsiniz.'
+        },
+        {
+          title: 'Syllabus (Ders İzlencesi) Nedir?',
+          content: 'Syllabus, bir dersin dönem boyunca işlenecek konularını, sınav tarihlerini, ödev teslimlerini, kaynak kitaplarını ve notlandırma kriterlerini içeren belgedir. Dönem başında hocalar tarafından dağıtılır veya sisteme yüklenir. Syllabus, o dersten nasıl AA alabileceğinizin haritasıdır. Sınav tarihlerini ve ödev teslimlerini UniPlanner Pro takviminize veya ajandanıza işleyerek sürprizlerden kaçınabilirsiniz.'
+        },
+        {
+          title: 'Üstten Ders Alma Mantığı',
+          content: 'Üstten ders alma, bulunduğunuz sınıfın bir üst sınıfından ders alarak kredinizi doldurma işlemidir. Genellikle GANO\'su belirli bir seviyenin (örn: 3.00) üzerinde olan öğrencilere izin verilir. Avantajları: Erken mezun olma şansı yaratır veya son sınıfta ders yükünüzü hafifleterek KPSS, ALES gibi sınavlara veya iş aramaya odaklanmanızı sağlar. Ancak ders yükünüzü çok artırıp ortalamanızı düşürmemeye dikkat etmelisiniz.'
+        },
+        {
+          title: 'Alttan Ders (FF/Tekrar) Nasıl Temizlenir?',
+          content: 'Alttan ders, önceki dönemlerde başarısız olduğunuz (FF, FD) veya almanız gerekirken almadığınız derslerdir. Bu dersleri, açıldığı ilk dönemde almak zorundasınızdır. Alttan dersler programda önceliklidir, diğer derslerle çakışsa bile alttan dersi seçmek zorundasınız (bazı üniversitelerde çakışma izni verilebilir). Alttan dersi verirken devam zorunluluğu olup olmadığını öğrenci işlerinden öğrenmelisiniz.'
+        },
+        {
+          title: 'Çift Anadal (ÇAP) ve Yandal Programları',
+          content: 'ÇAP, aynı anda iki farklı bölümden diploma almanızı sağlar. Yandal ise başka bir bölümden sertifika almanızı sağlar. Bu programlar ciddi bir ders yükü ve disiplin gerektirir. Ders programı hazırlarken iki bölümün derslerinin çakışması en büyük sorundur. UniPlanner Pro gibi araçlar, iki farklı bölümün derslerini aynı takvimde görmenizi ve çakışmaları yönetmenizi kolaylaştırır.'
+        },
+        {
+          title: 'Erasmus ve Değişim Programlarında Ders Saydırma',
+          content: 'Erasmus veya Farabi gibi programlara gidecekseniz, gideceğiniz üniversitedeki derslerin kendi üniversitenizdeki derslerle eşleşmesi (Learning Agreement) gerekir. AKTS değerlerinin ve ders içeriklerinin uyumlu olması şarttır. Dönem kaybı yaşamamak için ders seçimini bölüm koordinatörünüzle birlikte titizlikle yapmalısınız.'
+        }
+      ]
+    },
+    scheduleInfo: {
+      title: 'Üniversite Ders Programı Hazırlama Rehberi',
+      articles: [
+        {
+          title: 'Ders Programı Nasıl Hazırlanır?',
+          content: 'Etkili bir ders programı hazırlamak için öncelikle zorunlu derslerinizi yerleştirin. Bu derslerin saatleri genellikle sabittir ve değiştirilemez. Ardından, boş kalan zaman dilimlerine ilgi alanlarınıza ve mezuniyet gereksinimlerinize uygun seçmeli dersleri ekleyin. UniPlanner Pro gibi araçlar kullanarak derslerin çakışıp çakışmadığını anında görebilirsiniz. Programınızı oluştururken sadece ders saatlerini değil, yemek, ulaşım ve ders çalışma sürelerini de hesaba katmayı unutmayın.'
+        },
+        {
+          title: 'Ders Çakışması Nedir ve Nasıl Çözülür?',
+          content: 'Ders çakışması, iki farklı dersin aynı gün ve saatte olması durumudur. Tam çakışma (saatlerin birebir aynı olması) ve kısmi çakışma (derslerin bir kısmının örtüşmesi) olarak ikiye ayrılır. Çakışma durumunda öncelik her zaman zorunlu veya alttan alınan derslere verilmelidir. Çözüm için: Dersin farklı bir şubesini (section) seçebilir, dersi bir sonraki seneye bırakabilir veya (üniversite izin veriyorsa) hocanızdan özel izin isteyebilirsiniz. UniPlanner Pro, çakışmaları görsel olarak size bildirerek bu süreci kolaylaştırır.'
+        },
+        {
+          title: 'Seçmeli Ders Seçerken Nelere Dikkat Edilmeli?',
+          content: 'Seçmeli dersler, not ortalamanızı (GANO) yükseltmek ve yeni yetkinlikler kazanmak için büyük bir fırsattır. Seçim yaparken: 1) Dersin içeriğinin ilginizi çekip çekmediğine, 2) Dersi veren hocanın notlandırma sistemine ve öğrenci yorumlarına, 3) Dersin AKTS/Kredi değerine, 4) Ders saatinin programınıza uygunluğuna dikkat edin. "Kolay ders" yerine size katkı sağlayacak dersleri seçmek uzun vadede daha faydalıdır.'
+        },
+        {
+          title: 'Üniversitede Zaman Yönetimi İpuçları',
+          content: 'Üniversite hayatı sadece derslerden ibaret değildir. Başarılı bir öğrenci olmak için ders, sosyal hayat ve dinlenme dengesini iyi kurmalısınız. Pomodoro tekniği gibi zaman yönetimi yöntemlerini kullanın. Haftalık programınızda mutlaka "ders çalışma blokları" oluşturun. Sınav haftalarında sıkışmamak için dersleri günü gününe tekrar edin. UniPlanner Pro ile oluşturduğunuz programı telefonunuza kaydederek her an planınıza sadık kalabilirsiniz.'
+        }
+      ]
+    },
     settings: 'Ayarlar',
     semesterPlanner: 'DÖNEM PLANLAYICI',
     clockType: 'Saat Tipi',
@@ -25,6 +143,7 @@ export const translations = {
     all: 'Tümü',
     compulsory: 'Zorunlu',
     elective: 'Seçmeli',
+    download: 'İndir',
     downloadImage: 'Resim Olarak İndir',
     downloadCSV: 'CSV Olarak İndir (Excel)',
     backup: 'Yedekle (JSON)',
@@ -70,7 +189,23 @@ export const translations = {
     preparingDownload: 'İndirme Hazırlanıyor...',
     downloadSuccess: 'İndirme Başarılı!',
     downloadError: 'İndirme Başarısız',
+    gpaCalculator: 'Ortalama Hesapla',
+    gpa: 'Ortalama (GPA)',
+    calculate: 'Hesapla',
+    grade: 'Harf Notu',
+    gradingSystem: 'Not Sistemi',
+    courseCount: 'Ders Sayısı',
+    calculationMode: 'Hesaplama Modu',
+    termGPA: 'Dönem Ortalaması',
+    cumulativeGPA: 'Genel Ortalama',
+    currentGPA: 'Mevcut Ortalama',
+    currentTotalCredits: 'Mevcut Toplam Kredi',
     courseNamePlaceholder: 'Matematik I',
+    select: 'Seçiniz',
+    course: 'Ders',
+    reset: 'Sıfırla',
+    confirmReset: 'Tüm verileri sıfırlamak istediğinize emin misiniz?',
+    creditAbbr: 'Kr',
     courseCodePlaceholder: 'MAT101',
     instructorPlaceholder: 'Prof. Dr. ...',
     classroomPlaceholder: 'D-101',
@@ -153,9 +288,109 @@ export const translations = {
         title: 'Haftalık planlamanızı bir üst seviyeye taşıyın',
         button: 'PROGRAMINI OLUŞTUR'
       }
+    },
+    footer: {
+      rights: 'Tüm hakları saklıdır.',
+      privacy: 'Gizlilik Politikası',
+      terms: 'Kullanım Şartları',
+      contact: 'İletişim',
+      developedBy: 'Geliştirici:',
+      tools: 'Araçlar',
+      scheduleMaker: 'Ders Programı Oluşturucu',
+      gpaCalculator: 'Ortalama Hesaplayıcı',
+    },
+    contactPage: {
+      title: 'İletişim & Destek',
+      backToHome: 'Ana Sayfaya Dön',
+      desc: 'Uygulama şu an geliştirme sürecindedir ve günden güne iyileştirmeler yapılmaktadır. Geri bildirimleriniz bizim için çok değerlidir.',
+      reportBug: 'Hata Bildir',
+      reportBugDesc: 'Bir hata mı buldunuz? Bize bildirin.',
+      suggestion: 'Öneri',
+      suggestionDesc: 'Bir fikriniz mi var? Paylaşın.',
+      emailSupport: 'E-posta Desteği',
+      developer: 'Geliştirici',
+      role: 'Full Stack Geliştirici',
+      bio: 'Öğrenciler için faydalı araçlar geliştiriyor. Temiz kod ve kullanıcı deneyimi tutkunu.',
     }
   },
   en: {
+    gpaPageTitle: 'GPA Calculator - University Grade Point Average',
+    gpaPageDescription: 'Calculate your university GPA easily. Term and cumulative GPA calculation, support for different grading systems (AA-FF, A-F).',
+    gpaKeywords: 'gpa calculator, grade point average, university gpa, cgpa calculator',
+    gpaInfo: {
+      faqTitle: 'Frequently Asked Questions About GPA Calculation',
+      articles: [
+        {
+          title: 'How is University GPA Calculated?',
+          content: 'The basic mathematical formula for calculating university GPA is as follows: The success grade coefficient of each course (e.g., 4.00 for AA, 3.50 for BA) is multiplied by the credit value of that course (ECTS or National Credit). This process is done individually for all courses in the semester. The resulting products are summed up (Weighted Score Total). Finally, this total value is divided by the total number of credits taken in that semester. The result is rounded to two decimal places (e.g., 3.45). This calculation is done with the same logic for both term (GPA) and cumulative (CGPA) averages, only by changing the courses covered.'
+        },
+        {
+          title: 'What is CGPA? (Cumulative Grade Point Average)',
+          content: 'CGPA stands for "Cumulative Grade Point Average". It represents the weighted average of all courses (successful or unsuccessful) taken by the student from the first day of university until the moment the calculation is made. CGPA is the most important criterion determining your graduation score. The grade that will be written on your diploma is the CGPA value formed when your last semester ends. In some universities, the term GANO is used instead.'
+        },
+        {
+          title: 'What is GANO? (General Academic Grade Point Average)',
+          content: 'GANO stands for "General Academic Grade Point Average" and refers to exactly the same concept as CGPA. The name may change according to the terminology preferences of universities. GANO is the clearest indicator of a student\'s academic success. GANO is the score type based on master\'s degree applications, job applications, transfer procedures, and scholarship evaluations. It is calculated out of 4.00.'
+        },
+        {
+          title: 'What is Term GPA? (Semester Grade Point Average)',
+          content: 'Term GPA refers to the average of the courses taken only in the relevant semester. It measures your academic performance in that period. If your Term GPA is below 2.00 in a semester, you may be considered "Probationary" or "Unsuccessful" for that semester (depending on university regulations). When calculating Term GPA, past semester courses are not taken into account, only courses registered for that semester are considered.'
+        },
+        {
+          title: 'CGPA and GANO Calculation Logic',
+          content: 'In CGPA and GANO calculation, all courses in the student\'s transcript are included in the pool. In repeated courses, the last grade taken is usually valid (in some universities, the highest grade). The formula used is: (Course 1 Credit x Grade 1) + (Course 2 Credit x Grade 2) + ... + (Course N Credit x Grade N) / Total Credit. This is a cumulative process, meaning every new semester from 1st to 4th year adds new data to this large pool.'
+        },
+        {
+          title: 'Letter Grades and 4.0 Scale Equivalents',
+          content: 'Most universities use the 4.0 scale or letter grade system. Common equivalents are: AA (4.00 - Excellent), BA (3.50 - Very Good), BB (3.00 - Good), CB (2.50 - Fair-Good), CC (2.00 - Fair/Pass), DC (1.50 - Conditional Pass), DD (1.00 - Conditional Pass), FD (0.50 - Fail), FF (0.00 - Fail). DC and DD grades are generally considered "Pass" if your general average (CGPA) is 2.00 or above, but if your average is low, you may need to retake these courses.'
+        },
+        {
+          title: 'What is the Difference Between Credit and ECTS?',
+          content: 'There are two types of credit systems in universities: National Credit and ECTS (European Credit Transfer System). National credit is generally based on the weekly theoretical and practical hours of the course. ECTS represents the workload of that course on the student (study, homework, project, etc.). ECTS is essential in exchange programs like Erasmus. When calculating GPA, either National Credit or ECTS is used as weight according to your university\'s regulations. You can calculate using both values in the UniPlanner Pro calculator.'
+        },
+        {
+          title: 'What Should the Average Be for Graduation?',
+          content: 'To graduate from undergraduate and associate degree programs, the CGPA must generally be at least 2.00. Students below 2.00 cannot graduate and have to repeat courses to raise their averages. Also, those with a CGPA between 3.00-3.49 graduate as "Honor Students", and those between 3.50-4.00 as "High Honor Students".'
+        },
+        {
+          title: 'How to Raise GPA?',
+          content: 'The most effective way to raise the average is to get high letter grades from courses with high credit values. Also, retaking courses with low grades (CC, DC, DD, FF) and raising the grade significantly increases CGPA. Summer school is a great opportunity to raise grades. Choosing elective courses suitable for your interests and where you can get high grades is also a strategic method.'
+        }
+      ],
+      q1: 'What is the Bell Curve System?',
+      a1: 'The Bell Curve (Relative Evaluation System) is a system where grades are determined according to the general success of the class. If the class average is low, high letter grades (AA, BB) can be obtained with low scores. Conversely, if the class average is very high, a low letter grade may come even with a high score. In this system, the passing grade is not fixed, it changes in every exam according to the performance of the class.',
+      q2: 'How does an FF grade affect the average?',
+      a2: 'The coefficient of the FF grade is 0.00. This means that the credit of that course is added to the total credit but contributes "0" points to the score pool. This situation significantly lowers the average (CGPA/GPA). The course with FF must be retaken and passed.',
+      q3: 'Is it possible to pass with DC and DD?',
+      a3: 'DC and DD grades are "Conditional Pass" grades. If your end-of-term or general average (depending on university regulations, usually there is a 2.00 threshold) is sufficient, you are considered to have passed these courses. However, if your average is not sufficient, you need to retake these courses.',
+      q4: 'Does summer school affect the average?',
+      a4: 'Yes, courses and grades taken in summer school are processed into the transcript and included in the CGPA calculation. Summer school is an effective method to raise the average, especially when used to pass failed courses or raise low-grade courses.',
+      q5: 'What is a transcript and what does it do?',
+      a5: 'A transcript (Grade Report Document) is a document that officially shows all courses taken by the student during university education, the credits of these courses, letter grades, term and general averages. It is the most basic document in internship, job application, master\'s degree, and transfer applications.',
+      q6: 'What should the average be for transfer?',
+      a6: 'There are base averages determined by the Higher Education Council and universities for transfer (Intra-institutional or Inter-institutional). Generally, CGPA is required to be at least 2.29 (in 4.0 system) or 60 (in 100 system), but for popular universities and departments, competitive averages are 3.00 and above.'
+    },
+    scheduleInfo: {
+      title: 'University Schedule Maker Guide',
+      articles: [
+        {
+          title: 'How to Create a Schedule?',
+          content: 'To create an effective schedule, first place your compulsory courses. The times of these courses are usually fixed and cannot be changed. Then, add elective courses that suit your interests and graduation requirements to the empty time slots. You can instantly see if courses conflict using tools like UniPlanner Pro. When creating your schedule, don\'t forget to account for not only course hours but also meal, commute, and study times.'
+        },
+        {
+          title: 'What is Course Conflict and How to Solve It?',
+          content: 'Course conflict is when two different courses are on the same day and time. It is divided into full conflict (exact same times) and partial conflict (courses overlap partially). In case of conflict, priority should always be given to compulsory or repeated courses. For solution: You can choose a different section of the course, leave the course for the next year, or (if the university allows) ask for special permission from your instructor. UniPlanner Pro makes this process easier by visually notifying you of conflicts.'
+        },
+        {
+          title: 'What to Consider When Choosing Electives?',
+          content: 'Elective courses are a great opportunity to raise your GPA and gain new competencies. When choosing: Pay attention to 1) Whether the content of the course interests you, 2) The instructor\'s grading system and student reviews, 3) The ECTS/Credit value of the course, 4) The suitability of the course time for your schedule. Choosing courses that will contribute to you instead of "easy courses" is more beneficial in the long run.'
+        },
+        {
+          title: 'Time Management Tips in University',
+          content: 'University life is not just about classes. To be a successful student, you must balance study, social life, and rest well. Use time management methods like the Pomodoro technique. Definitely create "study blocks" in your weekly schedule. Review courses day by day to avoid cramming during exam weeks. You can stick to your plan at any time by saving the schedule you created with UniPlanner Pro to your phone.'
+        }
+      ]
+    },
     settings: 'Settings',
     semesterPlanner: 'SEMESTER PLANNER',
     clockType: 'Clock Type',
@@ -181,6 +416,7 @@ export const translations = {
     all: 'All',
     compulsory: 'Compulsory',
     elective: 'Elective',
+    download: 'Download',
     downloadImage: 'Download as Image',
     downloadCSV: 'Download as CSV (Excel)',
     backup: 'Backup (JSON)',
@@ -226,7 +462,23 @@ export const translations = {
     preparingDownload: 'Preparing Download...',
     downloadSuccess: 'Download Successful!',
     downloadError: 'Download Failed',
+    gpaCalculator: 'GPA Calculator',
+    gpa: 'GPA',
+    calculate: 'Calculate',
+    grade: 'Grade',
+    gradingSystem: 'Grading System',
+    courseCount: 'Course Count',
+    calculationMode: 'Calculation Mode',
+    termGPA: 'Term GPA',
+    cumulativeGPA: 'Cumulative GPA',
+    currentGPA: 'Current GPA',
+    currentTotalCredits: 'Current Total Credits',
     courseNamePlaceholder: 'Calculus I',
+    select: 'Select',
+    course: 'Course',
+    reset: 'Reset',
+    confirmReset: 'Are you sure you want to reset all data?',
+    creditAbbr: 'Cr',
     courseCodePlaceholder: 'MATH101',
     instructorPlaceholder: 'Dr. Smith',
     classroomPlaceholder: 'Room 101',
@@ -309,6 +561,29 @@ export const translations = {
         title: 'Ready to master your weekly planning?',
         button: 'BUILD YOUR SCHEDULE'
       }
+    },
+    footer: {
+      rights: 'All rights reserved.',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Service',
+      contact: 'Contact',
+      developedBy: 'Developed by:',
+      tools: 'Tools',
+      scheduleMaker: 'Schedule Maker',
+      gpaCalculator: 'GPA Calculator',
+    },
+    contactPage: {
+      title: 'Contact & Support',
+      backToHome: 'Back to Home',
+      desc: 'The application is currently under development and improvements are being made daily. Your feedback is invaluable to us.',
+      reportBug: 'Report a Bug',
+      reportBugDesc: 'Found an error? Let us know.',
+      suggestion: 'Suggestion',
+      suggestionDesc: 'Have an idea? Share it.',
+      emailSupport: 'Email Support',
+      developer: 'Developer',
+      role: 'Full Stack Developer',
+      bio: 'Building useful tools for students. Passionate about clean code and user experience.',
     }
   }
 };

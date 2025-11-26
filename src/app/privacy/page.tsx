@@ -93,10 +93,6 @@ export default function PrivacyPage() {
 
         </div>
       </div>
-      
-      <footer className="bg-gray-900 text-gray-400 py-8 px-4 text-center text-sm mt-auto">
-        <p>© 2025 UniPlanner Pro. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
