@@ -1,12 +1,12 @@
 import { ImageResponse } from 'next/og'
- 
+
 // Image metadata
 export const size = {
-  width: 32,
-  height: 32,
+  width: 128,
+  height: 128,
 }
 export const contentType = 'image/png'
- 
+
 // Image generation
 export default function Icon() {
   return new ImageResponse(
@@ -14,7 +14,7 @@ export default function Icon() {
       // ImageResponse JSX element
       <div
         style={{
-          fontSize: 24,
+          fontSize: 88,
           background: 'linear-gradient(to top right, #2563eb, #4f46e5)',
           width: '100%',
           height: '100%',
@@ -22,13 +22,13 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
-          borderRadius: '8px',
+          borderRadius: '24px',
         }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="80"
+          height="80"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

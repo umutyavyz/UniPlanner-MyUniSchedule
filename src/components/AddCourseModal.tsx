@@ -9,7 +9,7 @@ import { translations } from '@/lib/i18n';
 
 const DAYS = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'] as const;
 export const COLORS = [
-  '#3b82f6', '#ef4444', '#10b981', '#f59e0b', 
+  '#3b82f6', '#ef4444', '#10b981', '#f59e0b',
   '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
 ];
 
@@ -48,7 +48,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
         onClose();
       }
     };
-    
+
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
@@ -92,7 +92,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
       const end = schedule.endTime.split(':').map(Number);
       const startMinutes = start[0] * 60 + start[1];
       const endMinutes = end[0] * 60 + end[1];
-      
+
       if (endMinutes <= startMinutes) {
         setError(t.endTimeBeforeStart);
         return;
@@ -151,13 +151,13 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
 
   return createPortal(
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-md animate-fade-in transition-all">
-      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-scale-in mx-2 sm:mx-0 border border-white/20 dark:border-gray-700/50 ring-1 ring-black/5">
+      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-scale-in mx-2 sm:mx-0 border border-white/20 dark:border-gray-700/50 ring-1 ring-black/5">
         <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center sticky top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md z-10">
           <h2 className="text-xl sm:text-2xl font-bold bg-linear-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
             {initialData ? t.edit : t.addCourse}
           </h2>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200"
           >
             <X size={20} />
@@ -296,7 +296,7 @@ export default function AddCourseModal({ isOpen, onClose, onSave, initialData, s
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2 w-full sm:w-auto items-center">
                     <input
                       type="time"

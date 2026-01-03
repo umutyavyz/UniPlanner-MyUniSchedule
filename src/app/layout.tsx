@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import CookieConsent from "@/components/CookieConsent";
 import ClientFooter from "@/components/ClientFooter";
+import SmartReminders from "@/components/SmartReminders";
 import { headers } from "next/headers"; // Header erişimi için eklendi
 
 const geistSans = Geist({
@@ -20,7 +21,7 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   // Gelen isteğin başlıklarını alıyoruz
   const headersList = await headers();
-  
+
   // Kullanıcının dil tercihini veya Vercel gibi platformlarda IP konumunu kontrol ediyoruz
   const acceptLanguage = headersList.get('accept-language') || '';
   const country = headersList.get('x-vercel-ip-country'); // Eğer Vercel üzerinde barındırıyorsanız çalışır
@@ -28,14 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
   // Türkiye tespiti: IP adresi TR ise VEYA tarayıcı dili Türkçe içeriyorsa
   const isTR = country === 'TR' || acceptLanguage.includes('tr');
 
-  // İsteğinize göre başlık mantığı
+  // Landing page title - comprehensive branding
   const title = isTR
-    ? 'UniPlanner Pro | Ders Programı Oluşturucu'
-    : 'UniPlanner Pro | Schedule Maker'; // Yurtdışı için sadece İngilizce kısım
+    ? 'UniPlanner Pro | Üniversite Öğrencileri İçin Ücretsiz Araçlar'
+    : 'UniPlanner Pro | Free Tools for University Students';
 
   const description = isTR
-    ? 'Ücretsiz üniversite ders programı oluşturucu. Derslerinizi planlayın, çakışmaları önleyin ve programınızı PDF olarak indirin.'
-    : 'Free university schedule maker. Build your college timetable, avoid course conflicts, and export to PDF/Image.';
+    ? 'Üniversite hayatını kolaylaştıran ücretsiz araçlar: Ders programı oluşturucu, GPA hesaplama, Pomodoro sayacı, devamsızlık takibi, bütçe yönetimi ve daha fazlası. Üyelik gerektirmez!'
+    : 'Free tools for university life: Schedule maker, GPA calculator, Pomodoro timer, attendance tracker, budget manager and more. No signup required!';
 
   return {
     metadataBase: new URL('https://www.myunischedule.com'),
@@ -44,12 +45,20 @@ export async function generateMetadata(): Promise<Metadata> {
       template: '%s | UniPlanner Pro'
     },
     description: description,
+    icons: {
+      icon: '/icon', // Explicitly pointing to our dynamic icon
+      shortcut: '/icon',
+      apple: '/icon',
+    },
+    alternates: {
+      canonical: 'https://www.myunischedule.com',
+    },
     keywords: [
       'university schedule maker', 'timetable planner', 'college schedule', 'weekly planner',
       'ders programı hazırlama', 'üniversite ders programı', 'ders programı robotu', 'haftalık program', 'uniplanner',
-      'üniversite ders programı çakışma önleyici', 'ders programı çakışma kontrolü', 'course conflict checker', 'schedule conflict preventer',
-      'free schedule maker', 'college timetable generator', 'university planner', 'student planner', 
-      'ders programı oluşturucu', 'ücretsiz ders programı', 'üniversite planlayıcı', 'gpa calculator', 'not ortalaması hesaplama'
+      'ders programı çakışma önleyici', 'schedule conflict preventer',
+      'free schedule maker', 'college timetable generator', 'university planner',
+      'ders programı oluşturucu', 'ücretsiz ders programı', 'gpa calculator', 'akts hesaplama'
     ],
     authors: [{ name: 'Umut Yavuz' }],
     creator: 'Umut Yavuz',
@@ -61,7 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       title: title,
-      description: isTR ? 'Dönem planınızı dakikalar içinde hazırlayın.' : 'Plan your semester in minutes.',
+      description: description,
       url: 'https://www.myunischedule.com',
       siteName: 'UniPlanner Pro',
       locale: isTR ? 'tr_TR' : 'en_US',
@@ -72,16 +81,14 @@ export async function generateMetadata(): Promise<Metadata> {
           url: '/og-image.png',
           width: 1200,
           height: 630,
-          alt: 'UniPlanner Pro Preview',
+          alt: 'UniPlanner Pro - Schedule Maker',
         }
       ],
     },
     twitter: {
       card: 'summary_large_image',
       title: title,
-      description: isTR 
-        ? 'Üniversite ders programı hazırlamanın en kolay yolu.' 
-        : 'The easiest way to plan your university semester.',
+      description: description,
       images: ['/og-image.png'],
     },
     robots: {
@@ -98,16 +105,28 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Detect user's preferred language
+  const headersList = await headers();
+  const acceptLanguage = headersList.get('accept-language') || '';
+  const country = headersList.get('x-vercel-ip-country');
+  const isTR = country === 'TR' || acceptLanguage.includes('tr');
+  const lang = isTR ? 'tr' : 'en';
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
-        <script 
-          async 
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="UniPlanner" />
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7619120582243963"
           crossOrigin="anonymous"
         ></script>
@@ -120,6 +139,17 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-DQ7DQECBK0');
+              
+              // Register Service Worker
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('SW registered: ', registration);
+                  }).catch(function(error) {
+                    console.log('SW registration failed: ', error);
+                  });
+                });
+              }
             `,
           }}
         />
@@ -162,6 +192,7 @@ export default function RootLayout({
             </main>
             <ClientFooter />
           </div>
+          <SmartReminders />
           <CookieConsent />
         </ThemeProvider>
       </body>

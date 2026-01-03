@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { translations } from '@/lib/i18n';
-import { Target, Globe, ShieldCheck, ArrowLeft, Info } from 'lucide-react';
+import { Target, Globe, ShieldCheck, ArrowLeft, Info, Heart, Users, Rocket } from 'lucide-react';
 
 export default function AboutPage() {
   const [language, setLanguage] = useState<'tr' | 'en'>('en');
@@ -28,73 +28,89 @@ export default function AboutPage() {
   const t = translations[language].aboutPage;
 
   return (
-    <main className="min-h-screen bg-[#020817] text-gray-100 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
+      <div className="max-w-4xl mx-auto w-full px-4 py-12 flex-1">
         {/* Back Link */}
-        <div className="mb-8">
-          <Link 
-            href="/" 
-            className="inline-flex items-center text-blue-500 hover:text-blue-400 transition-colors"
-          >
-            <ArrowLeft size={20} className="mr-2" />
-            <span className="font-medium">{t.backToHome || 'Back to Home'}</span>
-          </Link>
-        </div>
+        <Link href="/" className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline mb-8">
+          <ArrowLeft size={20} className="mr-2" />
+          {t.backToHome || 'Ana Sayfa'}
+        </Link>
 
         {/* Title Section */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-3 bg-purple-500/10 rounded-xl border border-purple-500/20">
-            <Info className="w-8 h-8 text-purple-500" />
+          <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-full text-purple-600 dark:text-purple-400">
+            <Info size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-white">
-            {t.title}
-          </h1>
+          <h1 className="text-4xl font-bold">{t.title}</h1>
         </div>
 
         {/* Content Card */}
-        <div className="bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-xl">
+        <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800">
           <div className="space-y-8">
             {/* Misyon */}
             <section>
-              <div className="flex items-center gap-3 mb-3">
-                <Target className="w-5 h-5 text-blue-500" />
-                <h2 className="text-xl font-semibold text-white">
-                  {t.missionTitle}
-                </h2>
-              </div>
-              <p className="text-slate-400 leading-relaxed pl-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
+                <Target size={20} className="text-blue-600 dark:text-blue-400" />
+                {t.missionTitle}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed pl-7">
                 {t.missionContent}
               </p>
             </section>
 
             {/* Vizyon */}
             <section>
-              <div className="flex items-center gap-3 mb-3">
-                <Globe className="w-5 h-5 text-purple-500" />
-                <h2 className="text-xl font-semibold text-white">
-                  {t.visionTitle}
-                </h2>
-              </div>
-              <p className="text-slate-400 leading-relaxed pl-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
+                <Globe size={20} className="text-purple-600 dark:text-purple-400" />
+                {t.visionTitle}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed pl-7">
                 {t.visionContent}
               </p>
             </section>
 
             {/* Neden Biz */}
             <section>
-              <div className="flex items-center gap-3 mb-3">
-                <ShieldCheck className="w-5 h-5 text-green-500" />
-                <h2 className="text-xl font-semibold text-white">
-                  {t.whyUsTitle}
-                </h2>
-              </div>
-              <p className="text-slate-400 leading-relaxed pl-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
+                <ShieldCheck size={20} className="text-green-600 dark:text-green-400" />
+                {t.whyUsTitle}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed pl-7">
                 {t.whyUsContent}
               </p>
             </section>
           </div>
         </div>
+
+        {/* Developer Section */}
+        <div className="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/50">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-full text-blue-600 dark:text-blue-400">
+              <Heart size={24} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                {language === 'tr' ? 'Geliştirici' : 'Developer'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                {language === 'tr'
+                  ? 'UniPlanner Pro, öğrenciler için öğrenciler tarafından geliştirilmiştir.'
+                  : 'UniPlanner Pro is developed by students, for students.'}
+              </p>
+              <div className="flex items-center gap-3 mt-3">
+                <a
+                  href="https://github.com/umutyavyz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium"
+                >
+                  Umut Yavuz
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }

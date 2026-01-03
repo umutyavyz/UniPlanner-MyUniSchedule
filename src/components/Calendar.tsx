@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { ScheduledCourse } from '@/types';
 import { Settings } from '@/types/settings';
 import { translations } from '@/lib/i18n';
@@ -14,6 +15,10 @@ const END_HOUR = 23;
 export default function Calendar({ courses, settings }: CalendarProps) {
   const t = translations[settings.language];
 
+
+  // Update current time every minute
+
+
   // Determine days to show
   let daysToShow = [...ALL_DAYS];
   if (!settings.showWeekend) {
@@ -25,13 +30,13 @@ export default function Calendar({ courses, settings }: CalendarProps) {
       daysToShow = [sunday, ...daysToShow.filter(d => d !== 'sunday')];
     }
   }
-  
+
   // If daily view, show only today (or Monday if weekend is hidden and today is weekend)
   if (settings.viewType === 'daily') {
     const today = new Date();
     const dayIndex = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     const todayName = dayIndex === 0 ? 'sunday' : ALL_DAYS[dayIndex - 1];
-    
+
     if (daysToShow.includes(todayName)) {
       daysToShow = [todayName];
     } else {
@@ -50,9 +55,7 @@ export default function Calendar({ courses, settings }: CalendarProps) {
   });
 
   // Calculate height per hour
-  // If minimizeHeight is true, use minHeight slider value as a factor (e.g. 5-15 -> 30px-90px)
-  // Default 60px
-  const hourHeight = settings.minimizeHeight ? (settings.minHeight * 6) : 60; 
+  const hourHeight = settings.minimizeHeight ? (settings.minHeight * 6) : 60;
 
   const formatTime = (hour: number, min: number) => {
     const h = settings.clockType === '12h' ? (hour % 12 || 12) : hour;
@@ -77,7 +80,6 @@ export default function Calendar({ courses, settings }: CalendarProps) {
     };
   };
 
-  // Helper to map Turkish day names from data to English keys for logic
   const mapDayToKey = (dayName: string) => {
     const map: Record<string, string> = {
       'Pazartesi': 'monday',
@@ -91,13 +93,24 @@ export default function Calendar({ courses, settings }: CalendarProps) {
     return map[dayName] || dayName.toLowerCase();
   };
 
+
+
+
+  const currentDayIndex = new Date().getDay();
+  const currentDayName = currentDayIndex === 0 ? 'sunday' : ALL_DAYS[currentDayIndex - 1];
+
   return (
     <div className="flex-1 h-full overflow-auto bg-white dark:bg-gray-900 relative flex flex-col transition-colors [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
       {/* Header */}
-      <div className="flex border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-20 transition-colors min-w-[800px] lg:min-w-0">
-        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 sticky left-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-30"></div>
+      <div className="flex border-b border-gray-100 dark:border-gray-800/80 sticky top-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-30 transition-colors min-w-[800px] lg:min-w-0 shadow-sm shadow-gray-100/50 dark:shadow-none">
+        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800/80 sticky left-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-40"></div>
         {daysToShow.map(day => (
-          <div key={day} className="flex-1 py-4 text-center font-semibold text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-800 last:border-r-0 capitalize text-sm sm:text-base tracking-tight">
+          <div
+            key={day}
+            className={`flex-1 py-4 text-center font-semibold border-r border-gray-100 dark:border-gray-800/80 last:border-r-0 capitalize text-sm sm:text-base tracking-tight transition-colors
+              ${day === currentDayName ? 'text-blue-600 dark:text-blue-400 bg-blue-50/10' : 'text-gray-900 dark:text-gray-100'}
+            `}
+          >
             {t.days[day as keyof typeof t.days]}
           </div>
         ))}
@@ -105,19 +118,23 @@ export default function Calendar({ courses, settings }: CalendarProps) {
 
       {/* Grid */}
       <div className="flex relative min-w-[800px] lg:min-w-0" style={{ minHeight: `${(END_HOUR - START_HOUR) * hourHeight}px` }}>
-        {/* Time Column */}
-        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800 bg-gray-50/30 dark:bg-gray-900/30 transition-colors sticky left-0 z-30 backdrop-blur-[2px]">
-          {timeSlots.map((slot, i) => {
-             // Only show label for full hours or if increment is large enough
-             if (slot.min !== 0 && settings.timeIncrement < 30) return null;
-             
-             const isLast = i === timeSlots.length - 1;
 
-             return (
-              <div 
-                key={i} 
+        {/* Current Time Line (Horizontal across all days) */}
+
+
+        {/* Time Column */}
+        <div className="w-14 sm:w-20 shrink-0 border-r border-gray-100 dark:border-gray-800/80 bg-gray-50/30 dark:bg-gray-900/30 transition-colors sticky left-0 z-30 backdrop-blur-[2px]">
+          {timeSlots.map((slot, i) => {
+            // Only show label for full hours or if increment is large enough
+            if (slot.min !== 0 && settings.timeIncrement < 30) return null;
+
+            const isLast = i === timeSlots.length - 1;
+
+            return (
+              <div
+                key={i}
                 className="relative w-full text-[11px] text-gray-400 dark:text-gray-500 flex items-start justify-end pr-3 font-medium tracking-wide"
-                style={{ 
+                style={{
                   height: isLast ? '0' : `${hourHeight}px`,
                   lineHeight: '1',
                   paddingTop: '6px'
@@ -131,13 +148,13 @@ export default function Calendar({ courses, settings }: CalendarProps) {
 
         {/* Days Columns */}
         {daysToShow.map(day => (
-          <div key={day} className="flex-1 border-r border-gray-50 dark:border-gray-800/50 last:border-r-0 relative bg-white dark:bg-gray-900 transition-colors group">
+          <div key={day} className="flex-1 border-r border-gray-50 dark:border-gray-800/40 last:border-r-0 relative bg-white dark:bg-gray-900 transition-colors group">
             {/* Grid Lines */}
             {timeSlots.map((slot, i) => (
-              <div 
-                key={i} 
-                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800' : 'border-gray-50 dark:border-gray-800/30 border-dashed'}`}
-                style={{ 
+              <div
+                key={i}
+                className={`absolute w-full border-b ${slot.min === 0 ? 'border-gray-100 dark:border-gray-800/60' : 'border-gray-50 dark:border-gray-800/20 border-dashed'}`}
+                style={{
                   top: `${(i * settings.timeIncrement / 60) * hourHeight}px`
                 }}
               ></div>
@@ -153,28 +170,32 @@ export default function Calendar({ courses, settings }: CalendarProps) {
                   return (
                     <div
                       key={`${course.id}-${i}`}
-                      className="absolute left-1 right-1 rounded-lg p-2 text-sm overflow-hidden shadow-sm hover:shadow-md border-l-4 transition-all cursor-pointer z-10 animate-fade-in hover:z-20 group/card backdrop-blur-[2px] text-gray-900 dark:text-gray-100"
-                      style={{ 
-                        top: style.top, 
-                        height: style.height,
-                        backgroundColor: `${color}20`, // Slightly more visible
+                      className="absolute left-1 right-1 rounded-xl p-2.5 text-sm shadow-sm hover:shadow-xl hover:scale-[1.02] border-l-4 transition-all duration-200 cursor-pointer z-10 animate-fade-in hover:z-20 group/card backdrop-blur-md text-gray-900 dark:text-gray-100 ring-1 ring-black/5 dark:ring-white/5 flex flex-col justify-start"
+                      style={{
+                        top: style.top,
+                        minHeight: style.height,
+                        height: 'auto',
+                        backgroundColor: `${color}25`, // Slightly more visible
                         borderLeftColor: color,
-                        borderTopColor: `${color}30`,
-                        borderRightColor: `${color}30`,
-                        borderBottomColor: `${color}30`,
-                        borderWidth: '1px 1px 1px 4px'
+                        borderTop: `1px solid ${color}20`,
+                        borderRight: `1px solid ${color}20`,
+                        borderBottom: `1px solid ${color}20`,
                       }}
                     >
-                      <div className="font-bold text-xs sm:text-sm leading-tight mb-0.5 flex items-center gap-1.5 flex-wrap" style={{ color: color }}>
+                      <div className="font-bold text-xs sm:text-sm leading-tight mb-1 flex items-center gap-1.5 flex-wrap" style={{ color: color }}>
                         {course.code}
                       </div>
-                      <div className="truncate font-semibold text-xs text-gray-900 dark:text-gray-100 leading-tight">{course.name}</div>
-                      <div className="truncate text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 mt-0.5 font-medium">{course.instructor}</div>
-                      {course.classroom && <div className="truncate text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
-                        <span className="w-1 h-1 rounded-full bg-gray-400 inline-block"></span>
-                        {course.classroom}
-                      </div>}
-                      <div className="absolute bottom-1 right-1 text-[9px] font-bold bg-white/80 dark:bg-gray-950/80 px-1.5 py-0.5 rounded text-gray-600 dark:text-gray-400 backdrop-blur-md shadow-sm border border-gray-100 dark:border-gray-800">
+                      <div className="font-bold text-xs sm:text-[13px] text-gray-900 dark:text-white leading-tight mb-1">{course.name}</div>
+
+                      <div className="flex flex-col gap-0.5">
+                        <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 font-medium">{course.instructor}</div>
+                        {course.classroom && <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600 inline-block shrink-0"></span>
+                          {course.classroom}
+                        </div>}
+                      </div>
+
+                      <div className="absolute bottom-1.5 right-1.5 text-[9px] font-bold bg-white/90 dark:bg-gray-900/90 px-2 py-0.5 rounded-md text-gray-600 dark:text-gray-300 shadow-sm border border-gray-100 dark:border-gray-800">
                         {s.startTime} - {s.endTime}
                       </div>
                     </div>

@@ -3,34 +3,141 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Modern, cleaner white for light mode */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+
+  /* Brand colors matching the "University" theme but modern */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --border: #e2e8f0;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* Deep, rich gray/blue for dark mode instead of pure black */
+  --background: #020617;
+  --foreground: #f8fafc;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --muted: #0f172a;
+  --muted-foreground: #94a3b8;
+
+  --card: #0f172a;
+  --card-foreground: #f8fafc;
+
+  --border: #1e293b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --animate-fade-in: fade-in 0.3s ease-out;
+
+  --animate-fade-in: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-scale-in: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-up: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in-right: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-pulse-slow: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-breathe: breathe 6s ease-in-out infinite;
 
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse-slow {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes breathe {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
@@ -38,8 +145,33 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Removed global transition for performance */
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
 
+.dark .glass {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Print Styles */
 @media print {
   @page {
     size: landscape;
@@ -49,8 +181,9 @@ html {
   body * {
     visibility: hidden;
   }
-  
-  #calendar-container, #calendar-container * {
+
+  #calendar-container,
+  #calendar-container * {
     visibility: visible;
   }
 
@@ -65,18 +198,21 @@ html {
     overflow: visible !important;
     display: block !important;
     background: white !important;
+    box-shadow: none !important;
+    border: none !important;
   }
-  
+
   /* Hide scrollbars and extra elements in print */
   ::-webkit-scrollbar {
     display: none;
   }
 
   /* Scale content to fit if needed */
-  #calendar-container > div {
+  #calendar-container>div {
     transform: scale(0.85);
     transform-origin: top left;
-    width: 117% !important; /* Compensate for scale(0.85) -> 100/0.85 ≈ 117.6 */
+    width: 117% !important;
+    /* Compensate for scale(0.85) -> 100/0.85 ≈ 117.6 */
   }
 
   /* Ensure background colors are printed */
@@ -86,10 +222,10 @@ html {
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Sleek & Modern */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,18 +233,39 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border-radius: 100vh;
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.2s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d1d5db;
+  background-color: rgba(107, 114, 128, 0.8);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background-color: rgba(75, 85, 99, 0.5);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background-color: rgba(107, 114, 128, 0.8);
+}
+
+@keyframes window-pulse {
+
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+
+  5%,
+  95% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 8px rgba(253, 224, 71, 0.6);
+  }
 }

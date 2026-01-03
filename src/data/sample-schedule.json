@@ -1,0 +1,256 @@
+{
+    "allCourses": [
+        {
+            "id": "1",
+            "code": "CS101",
+            "name": "Bilgisayar Bilimlerine Giriş",
+            "instructor": "Dr. Alan Turing",
+            "schedule": [
+                {
+                    "day": "Pazartesi",
+                    "startTime": "09:00",
+                    "endTime": "10:50"
+                }
+            ],
+            "classroom": "Lab-1",
+            "color": "blue",
+            "credits": 3,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "2",
+            "code": "MATH101",
+            "name": "Matematik I",
+            "instructor": "Dr. Isaac Newton",
+            "schedule": [
+                {
+                    "day": "Pazartesi",
+                    "startTime": "13:00",
+                    "endTime": "14:50"
+                }
+            ],
+            "classroom": "A-101",
+            "color": "red",
+            "credits": 4,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "3",
+            "code": "PHYS101",
+            "name": "Fizik I",
+            "instructor": "Dr. Albert Einstein",
+            "schedule": [
+                {
+                    "day": "Salı",
+                    "startTime": "10:00",
+                    "endTime": "11:50"
+                }
+            ],
+            "classroom": "A-102",
+            "color": "green",
+            "credits": 4,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "4",
+            "code": "ENG101",
+            "name": "Akademik İngilizce",
+            "instructor": "Okutman William Shakespeare",
+            "schedule": [
+                {
+                    "day": "Çarşamba",
+                    "startTime": "09:00",
+                    "endTime": "10:50"
+                }
+            ],
+            "classroom": "D-203",
+            "color": "yellow",
+            "credits": 2,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "5",
+            "code": "CS102",
+            "name": "Programlama I",
+            "instructor": "Dr. Ada Lovelace",
+            "schedule": [
+                {
+                    "day": "Çarşamba",
+                    "startTime": "13:00",
+                    "endTime": "15:50"
+                }
+            ],
+            "classroom": "Lab-2",
+            "color": "purple",
+            "credits": 3,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "6",
+            "code": "HIST101",
+            "name": "Bilim Tarihi",
+            "instructor": "Dr. Marie Curie",
+            "schedule": [
+                {
+                    "day": "Perşembe",
+                    "startTime": "14:00",
+                    "endTime": "15:50"
+                }
+            ],
+            "classroom": "C-105",
+            "color": "orange",
+            "credits": 2,
+            "type": "Seçmeli"
+        },
+        {
+            "id": "7",
+            "code": "ART101",
+            "name": "Sanata Giriş",
+            "instructor": "Dr. Leonardo da Vinci",
+            "schedule": [
+                {
+                    "day": "Cuma",
+                    "startTime": "10:00",
+                    "endTime": "11:50"
+                }
+            ],
+            "classroom": "Studio-1",
+            "color": "pink",
+            "credits": 2,
+            "type": "Seçmeli"
+        }
+    ],
+    "selectedCourses": [
+        {
+            "id": "1",
+            "code": "CS101",
+            "name": "Bilgisayar Bilimlerine Giriş",
+            "instructor": "Dr. Alan Turing",
+            "schedule": [
+                {
+                    "day": "Pazartesi",
+                    "startTime": "09:00",
+                    "endTime": "10:50"
+                }
+            ],
+            "classroom": "Lab-1",
+            "color": "blue",
+            "credits": 3,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "2",
+            "code": "MATH101",
+            "name": "Matematik I",
+            "instructor": "Dr. Isaac Newton",
+            "schedule": [
+                {
+                    "day": "Pazartesi",
+                    "startTime": "13:00",
+                    "endTime": "14:50"
+                }
+            ],
+            "classroom": "A-101",
+            "color": "red",
+            "credits": 4,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "3",
+            "code": "PHYS101",
+            "name": "Fizik I",
+            "instructor": "Dr. Albert Einstein",
+            "schedule": [
+                {
+                    "day": "Salı",
+                    "startTime": "10:00",
+                    "endTime": "11:50"
+                }
+            ],
+            "classroom": "A-102",
+            "color": "green",
+            "credits": 4,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "4",
+            "code": "ENG101",
+            "name": "Akademik İngilizce",
+            "instructor": "Okutman William Shakespeare",
+            "schedule": [
+                {
+                    "day": "Çarşamba",
+                    "startTime": "09:00",
+                    "endTime": "10:50"
+                }
+            ],
+            "classroom": "D-203",
+            "color": "yellow",
+            "credits": 2,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "5",
+            "code": "CS102",
+            "name": "Programlama I",
+            "instructor": "Dr. Ada Lovelace",
+            "schedule": [
+                {
+                    "day": "Çarşamba",
+                    "startTime": "13:00",
+                    "endTime": "15:50"
+                }
+            ],
+            "classroom": "Lab-2",
+            "color": "purple",
+            "credits": 3,
+            "type": "Zorunlu"
+        },
+        {
+            "id": "6",
+            "code": "HIST101",
+            "name": "Bilim Tarihi",
+            "instructor": "Dr. Marie Curie",
+            "schedule": [
+                {
+                    "day": "Perşembe",
+                    "startTime": "14:00",
+                    "endTime": "15:50"
+                }
+            ],
+            "classroom": "C-105",
+            "color": "orange",
+            "credits": 2,
+            "type": "Seçmeli"
+        },
+        {
+            "id": "7",
+            "code": "ART101",
+            "name": "Sanata Giriş",
+            "instructor": "Dr. Leonardo da Vinci",
+            "schedule": [
+                {
+                    "day": "Cuma",
+                    "startTime": "10:00",
+                    "endTime": "11:50"
+                }
+            ],
+            "classroom": "Studio-1",
+            "color": "pink",
+            "credits": 2,
+            "type": "Seçmeli"
+        }
+    ],
+    "settings": {
+        "clockType": "24h",
+        "viewType": "weekly",
+        "showWeekend": true,
+        "startOfWeek": "monday",
+        "timeIncrement": 60,
+        "minimizeHeight": false,
+        "minHeight": 10,
+        "language": "tr"
+    },
+    "version": "1.0",
+    "timestamp": "2026-01-01T20:30:00Z"
+}

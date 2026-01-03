@@ -19,7 +19,7 @@ export default function Footer({ t }: FooterProps) {
               <span className="text-xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">UniPlanner <span className="text-blue-600 dark:text-blue-400">Pro</span></span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm max-w-xs mx-auto md:mx-0">
-              {t.landing?.features?.learning?.desc || "Building useful tools for students."}
+              {t.footer?.description || "Üniversite hayatını kolaylaştıran ücretsiz araçlar. Ders programı, not hesaplama, pomodoro ve daha fazlası."}
             </p>
           </div>
 
@@ -27,7 +27,7 @@ export default function Footer({ t }: FooterProps) {
             <h3 className="font-semibold text-gray-900 dark:text-white mb-4">{t.footer.tools}</h3>
             <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
               <li>
-                <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <Link href="/planner" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   {t.footer.scheduleMaker}
                 </Link>
               </li>
@@ -36,9 +36,33 @@ export default function Footer({ t }: FooterProps) {
                   {t.footer.gpaCalculator}
                 </Link>
               </li>
+              <li>
+                <Link href="/final-calculator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {t.footer.finalCalculator}
+                </Link>
+              </li>
+              <li>
+                <Link href="/pomodoro" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {t.footer.pomodoro}
+                </Link>
+              </li>
+              <li>
+                <Link href="/attendance" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {t.footer.attendance}
+                </Link>
+              </li>
+              <li className="pt-1">
+                <Link
+                  href="/#tools"
+                  className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+                >
+                  {t.footer.exploreMore || 'Daha fazlasını keşfet'}
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-4">{t.footer.contact}</h3>
             <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
@@ -76,14 +100,14 @@ export default function Footer({ t }: FooterProps) {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} UniPlanner Pro. {t.footer.rights}
           </p>
-          
+
           <div className="flex flex-col items-center gap-2">
             <a href="mailto:support@myunischedule.com" className="text-xs text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               support@myunischedule.com
             </a>
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                {t.footer.developedBy} 
+                {t.footer.developedBy}
                 <a href="https://github.com/umutyavyz" target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1">
                   Umut Yavuz
                 </a>
