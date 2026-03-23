@@ -12,7 +12,9 @@ const STATIC_ASSETS = [
     '/budget',
     '/applications',
     '/notes',
-    '/goals'
+    '/goals',
+    '/habits',
+    '/daily-planner'
 ];
 
 // Install event - cache static assets

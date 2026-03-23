@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import BudgetClient from './BudgetClient';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 export async function generateMetadata(): Promise<Metadata> {
     const headersList = await headers();
@@ -26,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
             title: title,
             description: description,
             type: 'website',
+            images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }],
         },
         alternates: {
             canonical: 'https://www.myunischedule.com/budget'
@@ -34,6 +36,37 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function BudgetPage() {
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Öğrenci olarak bütçe nasıl yönetilir?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Aylık gelirlerinizi (burs, aile desteği, part-time iş) ve sabit giderlerinizi (kira, faturalar) listeleyin. Kalan miktarı yemek, ulaşım ve kişisel harcamalara bölüştürün. 50/30/20 kuralını uygulayın: Gelirinizin %50'si ihtiyaçlar, %30'u istekler, %20'si tasarruf."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Üniversite öğrencileri için en büyük harcama kalemleri nelerdir?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Üniversite öğrencilerinin en büyük harcama kalemleri genellikle kira/yurt ücreti, yemek, ulaşım, ders kitapları ve kırtasiye, sosyal aktiviteler ve aboneliklerdir. Bu kategorileri ayrı ayrı takip etmek tasarruf fırsatlarını görmek için önemlidir."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Burs ve kredi ile geçinmek mümkün mü?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Burs ve kredi miktarına ve yaşadığınız şehre bağlı olarak değişir. İstanbul gibi pahalı şehirlerde part-time çalışmak gerekebilir. Yurt seçeneğini değerlendirin, toplu alışveriş yapın ve öğrenci indirimlerinden yararlanın."
+                }
+            }
+        ]
+    };
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -59,6 +92,14 @@ export default function BudgetPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <BreadcrumbSchema items={[
+                { name: 'Ana Sayfa', href: '/' },
+                { name: 'Bütçe Takibi', href: '/budget' }
+            ]} />
             <BudgetClient />
         </>
     );

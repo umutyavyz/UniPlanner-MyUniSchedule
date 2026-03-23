@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import ExamsClient from './ExamsClient';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 export async function generateMetadata(): Promise<Metadata> {
     const headersList = await headers();
@@ -26,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
             title: title,
             description: description,
             type: 'website',
+            images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }],
         },
         alternates: {
             canonical: 'https://www.myunischedule.com/exams'
@@ -34,6 +36,37 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function ExamsPage() {
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Sınav için ne kadar önceden çalışmaya başlamalıyım?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Vize sınavları için en az 2 hafta, final sınavları için en az 3-4 hafta önceden çalışmaya başlamak önerilir. Konuyu daha önce kavramış ve düzenli çalışmışsanız 1 hafta yoğun tekrar yeterli olabilir."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Vize ile final sınavı arasındaki fark nedir?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Vize sınavı dönemin ortasında, ilk yarının konularını kapsayan sınavdır. Final sınavı ise dönemin sonunda tüm konuları kapsayabilir. Genellikle vize %40, final %60 ağırlıkla ortalamaya katılır, ancak bu oran üniversiteden üniversiteye değişir."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Sınav takvimimi nasıl yönetebilirim?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Tüm sınav tarihlerini tek bir yerde toplayın, aralarındaki süreye göre çalışma planı yapın. Aynı güne denk gelen sınavlar için önceden bölüm sekreterliğiyle iletişime geçin. UniPlanner Pro Sınav Takvimi aracı ile geri sayım takip edebilirsiniz."
+                }
+            }
+        ]
+    };
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -59,6 +92,14 @@ export default function ExamsPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <BreadcrumbSchema items={[
+                { name: 'Ana Sayfa', href: '/' },
+                { name: 'Sınav Takvimi', href: '/exams' }
+            ]} />
             <ExamsClient />
         </>
     );

@@ -5,6 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import CookieConsent from "@/components/CookieConsent";
 import ClientFooter from "@/components/ClientFooter";
 import SmartReminders from "@/components/SmartReminders";
+import MobileNav from "@/components/MobileNav";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import DesktopNav from "@/components/DesktopNav";
 import { headers } from "next/headers"; // Header erişimi için eklendi
 
 const geistSans = Geist({
@@ -58,7 +61,8 @@ export async function generateMetadata(): Promise<Metadata> {
       'ders programı hazırlama', 'üniversite ders programı', 'ders programı robotu', 'haftalık program', 'uniplanner',
       'ders programı çakışma önleyici', 'schedule conflict preventer',
       'free schedule maker', 'college timetable generator', 'university planner',
-      'ders programı oluşturucu', 'ücretsiz ders programı', 'gpa calculator', 'akts hesaplama'
+      'ders programı oluşturucu', 'ücretsiz ders programı', 'gpa calculator', 'akts hesaplama',
+      'habit tracker', 'alışkanlık takipçisi', 'daily planner', 'günlük planlayıcı', 'time blocking'
     ],
     authors: [{ name: 'Umut Yavuz' }],
     creator: 'Umut Yavuz',
@@ -78,10 +82,10 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: '/og-image.png',
+          url: '/opengraph-image',
           width: 1200,
           height: 630,
-          alt: 'UniPlanner Pro - Schedule Maker',
+          alt: 'UniPlanner Pro - Free Tools for University Students',
         }
       ],
     },
@@ -89,7 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: title,
       description: description,
-      images: ['/og-image.png'],
+      images: ['/opengraph-image'],
     },
     robots: {
       index: true,
@@ -158,21 +162,48 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "UniPlanner Pro",
+              "url": "https://www.myunischedule.com",
+              "description": "Free online tools for university students: schedule maker, GPA calculator, Pomodoro timer, attendance tracker, and more.",
+              "publisher": {
+                "@type": "Organization",
+                "name": "UniPlanner Pro",
+                "url": "https://www.myunischedule.com"
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "UniPlanner Pro",
               "applicationCategory": "ProductivityApplication",
               "operatingSystem": "Web",
+              "url": "https://www.myunischedule.com",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD"
               },
-              "description": "Free university schedule maker and conflict checker.",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1250"
-              }
+              "description": "Free university tools: schedule maker, GPA calculator, Pomodoro timer, attendance tracker, budget manager and more. No signup required.",
+              "featureList": [
+                "Course Schedule Maker with Conflict Detection",
+                "GPA / CGPA Calculator",
+                "Final Exam Grade Calculator",
+                "Pomodoro Focus Timer",
+                "Attendance Tracker",
+                "Assignment & Deadline Tracker",
+                "Exam Calendar",
+                "Flashcard Study Tool",
+                "Student Budget Manager",
+                "Job Application Tracker",
+                "Course Notes",
+                "Weekly Goals Planner"
+              ]
             })
           }}
         />
@@ -187,11 +218,14 @@ export default async function RootLayout({
           disableTransitionOnChange={false}
         >
           <div className="flex flex-col min-h-screen">
+            <DesktopNav />
             <main className="flex-1 flex flex-col">
               {children}
             </main>
             <ClientFooter />
           </div>
+          <MobileNav />
+          <PWAInstallPrompt />
           <SmartReminders />
           <CookieConsent />
         </ThemeProvider>

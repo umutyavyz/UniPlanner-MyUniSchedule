@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import PomodoroClient from './PomodoroClient';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 export async function generateMetadata(): Promise<Metadata> {
     const headersList = await headers();
@@ -26,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
             title: title,
             description: description,
             type: 'website',
+            images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }],
         },
         alternates: {
             canonical: 'https://www.myunischedule.com/pomodoro'
@@ -34,6 +36,45 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function PomodoroPage() {
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Pomodoro tekniği nedir?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pomodoro tekniği, Francesco Cirillo tarafından geliştirilen bir zaman yönetimi yöntemidir. 25 dakika odaklanarak çalışma, ardından 5 dakika kısa mola şeklinde döngüler halinde uygulanır. Her 4 Pomodoro sonrası 15-30 dakika uzun mola verilir."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Pomodoro tekniği öğrencilere nasıl yardımcı olur?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pomodoro tekniği, öğrencilerin konsantrasyonunu artırır, erteleme alışkanlığını kırar ve beyin yorgunluğunu azaltır. 25 dakikalık odaklı çalışma periyotları, uzun ders çalışma seanslarına kıyasla daha verimli öğrenme sağlar."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Pomodoro aralıkları özelleştirilebilir mi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Evet, UniPlanner Pro Pomodoro sayacında çalışma süresi, kısa mola ve uzun mola sürelerini ihtiyacınıza göre ayarlayabilirsiniz. Standart 25/5 yerine 50/10 gibi kendi ritminize uygun aralıklar belirleyebilirsiniz."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Günde kaç Pomodoro yapmalıyım?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Başlangıç için günde 4-6 Pomodoro (2-3 saat odaklanmış çalışma) idealdir. Deneyim kazandıkça günde 8-12 Pomodoro'ya çıkabilirsiniz. Önemli olan sayıdan çok kaliteli, kesintisiz çalışmadır."
+                }
+            }
+        ]
+    };
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -59,6 +100,14 @@ export default function PomodoroPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <BreadcrumbSchema items={[
+                { name: 'Ana Sayfa', href: '/' },
+                { name: 'Pomodoro Sayacı', href: '/pomodoro' }
+            ]} />
             <PomodoroClient />
         </>
     );

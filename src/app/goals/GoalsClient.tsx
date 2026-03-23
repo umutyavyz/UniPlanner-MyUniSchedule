@@ -213,7 +213,7 @@ export default function GoalsClient() {
 
             <main className="max-w-2xl mx-auto px-4 py-8">
                 {/* Stats */}
-                <div className="grid grid-cols-4 gap-3 mb-8">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
                     <div className="p-4 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 text-center">
                         <Flame className="w-5 h-5 text-amber-500 mx-auto mb-1" />
                         <div className="text-xl font-bold text-gray-900 dark:text-white">{stats.currentStreak}</div>
@@ -338,7 +338,7 @@ export default function GoalsClient() {
                                 <div className="flex items-center gap-4">
                                     <button
                                         onClick={() => toggleGoal(goal.id)}
-                                        className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${goal.completed
+                                        className={`shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${goal.completed
                                             ? 'bg-emerald-500 border-emerald-500 text-white'
                                             : 'border-gray-300 dark:border-gray-600 hover:border-emerald-500'
                                             }`}

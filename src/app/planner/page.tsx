@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import PlannerClient from './PlannerClient';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 export async function generateMetadata(): Promise<Metadata> {
     const headersList = await headers();
@@ -26,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
             title: title,
             description: description,
             type: 'website',
+            images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }],
         },
         alternates: {
             canonical: 'https://www.myunischedule.com/planner'
@@ -60,6 +62,10 @@ export default function PlannerPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <BreadcrumbSchema items={[
+                { name: 'Ana Sayfa', href: '/' },
+                { name: 'Ders Programı Oluşturucu', href: '/planner' }
+            ]} />
             <PlannerClient />
         </>
     );

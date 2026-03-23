@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import GPACalculatorClient from './GPACalculatorClient';
 import { translations } from '@/lib/i18n';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
@@ -19,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: t.gpaPageTitle,
       description: t.gpaPageDescription,
       type: 'website',
+      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: t.gpaPageTitle }],
     },
     alternates: {
       canonical: 'https://www.myunischedule.com/gpa-calculator'
@@ -112,6 +114,10 @@ export default function GPACalculatorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      <BreadcrumbSchema items={[
+        { name: 'Ana Sayfa', href: '/' },
+        { name: 'GPA Hesaplama', href: '/gpa-calculator' }
+      ]} />
       <GPACalculatorClient />
     </>
   );
